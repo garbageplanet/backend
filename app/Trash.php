@@ -42,7 +42,7 @@ class Trash extends Model
         return $this->hasMany('App\Clean', 'trash_id');
     }
 
-    public function markedBy()
+    public function creator()
     {
         return $this->belongsTo('App\User', 'marked_by');
     }
