@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Trash;
-use Auth;
+use JWTAuth;
 
 class TrashesController extends Controller
 {
@@ -31,7 +31,8 @@ class TrashesController extends Controller
     public function store(Request $request)
     {
         $data = $request->all(); //can be changed to request->only('first', 'second');
-        $trash = Auth::user()->markedTrashes()->create($data);
+        $user = JWTAuth::parseToken()->authenticate();
+        $trash = $user->markedTrashes()->create($data);
 
         //save tags
         $trash->tags()->attach($request->input('tags')); 
