@@ -31,7 +31,7 @@ class TrashesController extends Controller
     public function store(Request $request)
     {
         $data = $request->all(); //can be changed to request->only('first', 'second');
-        $trash = Auth::user()->trashes()->create($data);
+        $trash = Auth::user()->markedTrashes()->create($data);
 
         //save tags
         $trash->tags()->attach($request->input('tags')); 
