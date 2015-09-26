@@ -43,7 +43,7 @@ class User extends Model implements AuthenticatableContract,
 
     public function markedTrashes()
     {
-        return $this->hasMany('App\Trash');
+        return $this->hasMany('App\Trash', 'marked_by');
     }
 
     public function cleans()
