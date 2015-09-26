@@ -36,4 +36,37 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    /**********************
+     * Relationships begins
+     */
+
+    public function markedTrashes()
+    {
+        return $this->hasMany('App\Trash', 'marked_by');
+    }
+
+    public function cleans()
+    {
+        return $this->hasMany('App\Clean', 'user_id');
+    }
+
+    public function createdMeetings()
+    {
+        return $this->hasMany('App\Clean', 'created_by');
+    }
+
+    public function modifiedMeetings()
+    {
+        return $this->hasMany('App\Clean', 'modified_by');
+    }
+
+    public function participations()
+    {
+        return $this->hasMany('App\Clean', 'user_id');
+    }
+
+    /********************
+     * Relationships ends
+     */
 }

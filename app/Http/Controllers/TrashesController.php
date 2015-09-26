@@ -17,7 +17,8 @@ class TrashesController extends Controller
      */
     public function index()
     {
-        //
+        $trashes = Trash::all();
+        return $trashes;
     }
 
     /**
@@ -30,7 +31,10 @@ class TrashesController extends Controller
     {
         $data = $request->all(); //can be changed to request->only('first', 'second');
         $trash = Trash::create($data);
-        //TODO: insert pivot data (tags)
+
+        //save tags
+        $trash->tags()->attach($request->input('tags')); 
+
         return $trash;
 
     }
@@ -57,8 +61,17 @@ class TrashesController extends Controller
     public function update(Request $request, $id)
     {
        //find id
+       $trash = Trash::findOrFail($id);
+
        //update request
+       $trash->update($request->all());
+
+       //remove tags
+       $trash->tags()->detach();
+       //attach tags
+       $trash->tags()->attach($request->input('tags'));
        //return json
+       return $trash;
     }
 
     /**
@@ -70,7 +83,10 @@ class TrashesController extends Controller
     public function destroy($id)
     {
         //find id
+        $trash = Trash::findOrFail($id);
         //delete
-        //return
+        $trash->delete();
+        
+        return true;
     }
 }
