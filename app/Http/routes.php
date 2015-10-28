@@ -25,3 +25,6 @@ Route::group(['prefix' => 'api'], function() {
 
     Route::resource('trashes', 'TrashesController');
 });
+Route::get('/welcome', function () {
+    return view('welcome');
+});
