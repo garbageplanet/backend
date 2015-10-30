@@ -22,4 +22,4 @@ There are no views (this is rest api :)
 
 Authentication is JWT based...
 
-TODO: create dev branch
+TODO: create dev branch and other branches when necessary
