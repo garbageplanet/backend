@@ -9,15 +9,16 @@ use App\Http\Controllers\Controller;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\User;
+use App\Http\Controllers\Auth\AuthController;
 
-class AuthenticateController extends Controller
+class AuthenticateController extends AuthController
 {
     public function __construct()
     {
        // Apply the jwt.auth middleware to all methods in this controller
        // except for the authenticate method. We don't want to prevent
        // the user from retrieving their token if they don't already have it
-        $this->middleware('jwt.auth', ['except' => ['authenticate']]);
+        $this->middleware('jwt.auth', ['except' => ['authenticate', 'postRegister', 'loginUser']]);
     }
     /**
      * Display a listing of the resource.
@@ -30,24 +31,23 @@ class AuthenticateController extends Controller
         return $users;
     }
 
+    /**
+     * Login user
+     * @param Request $request
+     * @return $token
+     */
     public function authenticate(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
-        try {
-            // verify the credentials and create a token for the user
-            if (! $token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 401);
-            }
-        } catch (JWTException $e) {
-            // something went wrong
-            return response()->json(['error' => 'could_not_create_token'], 500);
-        }
-
-        // if no errors are encountered we can return a JWT
+        $token = $this->loginUser($credentials);
         return response()->json(compact('token'));
     }
 
+    /**
+     * Authenticates user
+     * @param Request $request
+     * @return $user
+     */
     public function getAuthenticatedUser()
     {
         try {
@@ -72,5 +72,47 @@ class AuthenticateController extends Controller
 
         // the token is valid and we have found the user via the sub claim
         return response()->json(compact('user'));
+    }
+
+    /**
+     * Register user
+     * @param Request $request
+     * @return token
+     */
+    public function postRegister(Request $request)
+    {
+        $validator = AuthController::validator($request->all());
+    
+        if ($validator->fails()) {
+            return response()->json(['Email is already registered / Something wrong with input.'], 403);
+        }
+        //create user
+        $user = AuthController::create($request->all());
+        
+        //credentials for login
+        $credentials = $request->only('email', 'password');
+
+        $token = $this->loginUser($credentials);
+        return response()->json(compact('token'));
+    }
+
+    /**
+     * Login user
+     * @param Array $attributes
+     */
+    protected function loginUser($credentials)
+    {
+
+        try {
+            // verify the credentials and create a token for the user
+            if (! $token = JWTAuth::attempt($credentials)) {
+                return response()->json(['error' => 'invalid_credentials'], 401);
+            }
+        } catch (JWTException $e) {
+            // something went wrong
+            return response()->json(['error' => 'could_not_create_token'], 500);
+        }
+        // if no errors are encountered we can return a JWT
+        return $token;
     }
 }

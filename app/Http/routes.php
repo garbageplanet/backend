@@ -16,12 +16,10 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'api'], function() {
-    Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);
+    //Auth (login, authenticate, register)
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::get('authenticate/user', 'AuthenticateController@getAuthenticatedUser');
-
-    Route::get('auth/register', 'Auth\AuthController@getRegister');
-    Route::post('auth/register', 'Auth\AuthController@postRegister');
+    Route::post('register', 'AuthenticateController@postRegister');
 
     Route::resource('trashes', 'TrashesController');
 });
