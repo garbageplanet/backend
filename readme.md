@@ -12,7 +12,7 @@ Database tables:
 -users
 
 Database changes are to be done in /database/migrations
-Database is currently MySql
+Database is currently PostgreSql
 
 Models are in /app -folder
 Controller are in /app/Http/Controllers -folder
@@ -20,6 +20,6 @@ Routes are in /app/Http/routes.php -file
 
 There are no views (this is rest api :)
 
-Authentication is JWT based...
+Authentication is JWT based, token is sent to client on authentication, and authorization needs the token sent by client
 
 TODO: create dev branch and other branches when necessary
