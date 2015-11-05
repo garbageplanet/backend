@@ -20,8 +20,9 @@ Route::group(['prefix' => 'api'], function() {
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::get('authenticate/user', 'AuthenticateController@getAuthenticatedUser');
     Route::post('register', 'AuthenticateController@postRegister');
-
+    Route::get('trashes/withinbounds', 'TrashesController@withinBounds');
     Route::resource('trashes', 'TrashesController');
+    
 });
 Route::get('/welcome', function () {
     return view('welcome');

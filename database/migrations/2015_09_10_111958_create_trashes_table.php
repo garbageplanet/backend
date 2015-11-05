@@ -21,7 +21,7 @@ class CreateTrashesTable extends Migration
             $table->string('lng');
             $table->integer('amount');
             $table->string('status');
-            $table->dateTime('cleaned_at');
+            $table->dateTime('cleaned_at')->nullable();
             $table->timestamps();
         });
         DB::statement('ALTER TABLE trashes ADD geom geometry(POINT,4326)' );

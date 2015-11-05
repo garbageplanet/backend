@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Trash;
 use JWTAuth;
+use DB;
+use Carbon\Carbon;
 
 class TrashesController extends Controller
 {
@@ -23,6 +25,31 @@ class TrashesController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function withinBounds(Request $request)
+    {
+        //TODO: Validate (regex validation to bounds)
+        //
+        // parse bounds
+        $coordinates = explode(", ", $request->bounds);
+        $sw_lat = $coordinates[2];
+        $sw_lng = $coordinates[3];
+        $ne_lat = $coordinates[0];
+        $ne_lng = $coordinates[1];
+        
+        $trashes = DB::select('
+            SELECT *
+            FROM trashes
+            WHERE trashes.geom && ST_MakeEnvelope(?, ?, ?, ?)', 
+            [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
+
+        return $trashes;
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
@@ -33,11 +60,14 @@ class TrashesController extends Controller
 
         $data = $request->all(); //can be changed to request->only('first', 'second');
         $user = JWTAuth::parseToken()->authenticate();
-        
+        if (!isset($data['marked_at'] )) {
+            $data['marked_at'] = Carbon::now()->toDateString();
+        }
+       
         $trash = $user->markedTrashes()->create($data); 
         //save point
         $trash->makePoint();
-        //save tags
+        //save tags TODO
 
         return $trash;
 
