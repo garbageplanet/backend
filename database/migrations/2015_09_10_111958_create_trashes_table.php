@@ -24,6 +24,7 @@ class CreateTrashesTable extends Migration
             $table->dateTime('cleaned_at');
             $table->timestamps();
         });
+        DB::statement('ALTER TABLE trashes ADD geom geometry(POINT,4326)' );
     }
 
     /**

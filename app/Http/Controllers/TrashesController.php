@@ -30,12 +30,14 @@ class TrashesController extends Controller
      */
     public function store(Request $request)
     {
+
         $data = $request->all(); //can be changed to request->only('first', 'second');
         $user = JWTAuth::parseToken()->authenticate();
-        $trash = $user->markedTrashes()->create($data);
-
+        
+        $trash = $user->markedTrashes()->create($data); 
+        //save point
+        $trash->makePoint();
         //save tags
-        $trash->tags()->attach($request->input('tags')); 
 
         return $trash;
 

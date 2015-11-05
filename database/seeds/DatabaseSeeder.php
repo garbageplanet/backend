@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
                 ['name' => 'Chris Sevilleja', 'email' => 'chris@scotch.io', 'password' => Hash::make('secret')],
                 ['name' => 'Holly Lloyd', 'email' => 'holly@scotch.io', 'password' => Hash::make('secret')],
                 ['name' => 'Adnan Kukic', 'email' => 'adnan@scotch.io', 'password' => Hash::make('secret')],
+                ['name' => 'Garbage Collector', 'email' => 'user@garbagepla.net', 'password' => Hash::make('garbagepass')],
         );
             
         // Loop through each user above and create the record for them in the database
