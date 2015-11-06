@@ -13,14 +13,13 @@ class Trash extends Model
      * @var array
      */
     protected $fillable = [
-        'marked_at',
         'marked_by',
         'lat',
         'lng',
         'amount',
-        'status',
-        'cleaned_at',
+        'image_url',
         'geom'
+        //waht do we need
     ];
 
     /**
@@ -34,9 +33,9 @@ class Trash extends Model
      * Relationships begins
      */
 
-    public function tags()
+    public function types()
     {
-        return $this->belongsToMany('App\Tag');
+        return $this->hasMany('App\TrashType');
     }
 
     public function cleans()
@@ -61,5 +60,14 @@ class Trash extends Model
     {
         $affected = DB::update('UPDATE trashes SET geom = ST_SetSRID(ST_MakePoint(?, ?), 4326) WHERE id = ?', [$this->lat, $this->lng, $this->id]);
         return $affected;
+    }
+
+    public function addTypes($types)
+    {
+        $types = explode(",", $types);
+        foreach ($types as $type) {
+            $this->types()->create(['type' => $type]);
+        }
+        return true;
     }
 }

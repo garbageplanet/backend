@@ -13,11 +13,19 @@ class TrashTest extends TestCase
         $user = factory(App\User::class)->create();
         $trash = factory(App\Trash::class)->create([
             'marked_by' => $user->id,
-            'cleaned_at' => '2015-11-06',
-
         ]);
         $trashPoint = $trash->makePoint();
         $this->assertEquals(1, $trashPoint);
 
+    }
+
+    public function test_create_trash_and_add_types()
+    {
+        $user = factory(App\User::class)->create();
+        $trash = factory(App\Trash::class)->create([
+            'marked_by' => $user->id,
+        ]);
+        $trash->addTypes('type1,type2');
+        //assertions?
     }
 }

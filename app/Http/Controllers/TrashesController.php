@@ -67,11 +67,11 @@ class TrashesController extends Controller
        
         $trash = Auth::user()->markedTrashes()->create($data); 
         $trash->makePoint();
-
-        //save tags TODO
-
+        if(isset($request->types)) {
+            $trash->addTypes($request->types); 
+        }
+        
         return $trash;
-
     }
 
     /**

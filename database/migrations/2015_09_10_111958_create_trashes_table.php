@@ -14,14 +14,14 @@ class CreateTrashesTable extends Migration
     {
         Schema::create('trashes', function (Blueprint $table) {
             $table->increments('id');
-            $table->dateTime('marked_at');
+            $table->dateTime('marked_at'); //dropped
             $table->integer('marked_by')->unsigned();
             $table->foreign('marked_by')->references('id')->on('users');
             $table->string('lat');
             $table->string('lng');
             $table->integer('amount');
-            $table->string('status');
-            $table->dateTime('cleaned_at')->nullable();
+            $table->string('status'); //removed
+            $table->dateTime('cleaned_at')->nullable(); //removed
             $table->timestamps();
         });
         DB::statement('ALTER TABLE trashes ADD geom geometry(POINT,4326)' );
