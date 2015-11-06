@@ -67,9 +67,7 @@ class TrashesController extends Controller
        
         $trash = Auth::user()->markedTrashes()->create($data); 
         $trash->makePoint();
-        if(isset($request->types)) {
-            $trash->addTypes($request->types); 
-        }
+        $trash->addTypes($request->types); 
         
         return $trash;
     }
