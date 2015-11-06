@@ -69,7 +69,11 @@ class TrashesController extends Controller
         $trash->makePoint();
         $trash->addTypes($request->types); 
         
-        return $trash;
+        //long route to do this
+        $array = $trash->toArray();
+        $array['types'] = $trash->types->pluck('type')->toArray();
+
+        return response()->json($array);
     }
 
     /**
@@ -81,7 +85,11 @@ class TrashesController extends Controller
     public function show($id)
     {
         $trash = Trash::findOrFail($id);
-        return $trash;
+        //long route to do this
+        $array = $trash->toArray();
+        $array['types'] = $trash->types->pluck('type')->toArray();
+
+        return response()->json($array);
     }
 
     /**
@@ -99,14 +107,15 @@ class TrashesController extends Controller
 
         //update request
         $trash->update($request->all());
-        /*
-        //remove tags
-        $trash->tags()->detach();
-        //attach tags
-        $trash->tags()->attach($request->input('tags'));
-        */
-        //return json
-        return $trash;
+        //delete types
+        $trash->types()->delete();
+        //add new types
+        $trash->addTypes($request->types); 
+
+        $array = $trash->toArray();
+        $array['types'] = $trash->types->pluck('type')->toArray();
+
+        return response()->json($array);
     }
 
     /**
@@ -120,7 +129,10 @@ class TrashesController extends Controller
         //find id
         $trash = Trash::findOrFail($id);
         //delete
+        $trash->types()->delete();
         $trash->delete();
+        //delete types
+        
         return response()->json("{}", 200);
     
     }
