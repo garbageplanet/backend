@@ -10,6 +10,7 @@ use App\Trash;
 use JWTAuth;
 use DB;
 use Carbon\Carbon;
+use Auth;
 
 class TrashesController extends Controller
 {
@@ -34,6 +35,7 @@ class TrashesController extends Controller
         //TODO: Validate (regex validation to bounds)
         //
         // parse bounds
+        
         $coordinates = explode(", ", $request->bounds);
         $sw_lat = $coordinates[2];
         $sw_lng = $coordinates[3];
@@ -57,16 +59,15 @@ class TrashesController extends Controller
      */
     public function store(Request $request)
     {
-
         $data = $request->all(); //can be changed to request->only('first', 'second');
-        $user = JWTAuth::parseToken()->authenticate();
+        //$user = JWTAuth::parseToken()->authenticate();
         if (!isset($data['marked_at'] )) {
             $data['marked_at'] = Carbon::now()->toDateString();
         }
        
-        $trash = $user->markedTrashes()->create($data); 
-        //save point
+        $trash = Auth::user()->markedTrashes()->create($data); 
         $trash->makePoint();
+
         //save tags TODO
 
         return $trash;
@@ -94,18 +95,20 @@ class TrashesController extends Controller
      */
     public function update(Request $request, $id)
     {
-       //find id
-       $trash = Trash::findOrFail($id);
+        //currently anyone authenticated user can update anything
+        //find id
+        $trash = Trash::findOrFail($id);
 
-       //update request
-       $trash->update($request->all());
-
-       //remove tags
-       $trash->tags()->detach();
-       //attach tags
-       $trash->tags()->attach($request->input('tags'));
-       //return json
-       return $trash;
+        //update request
+        $trash->update($request->all());
+        /*
+        //remove tags
+        $trash->tags()->detach();
+        //attach tags
+        $trash->tags()->attach($request->input('tags'));
+        */
+        //return json
+        return $trash;
     }
 
     /**
@@ -120,7 +123,7 @@ class TrashesController extends Controller
         $trash = Trash::findOrFail($id);
         //delete
         $trash->delete();
-        
-        return true;
+        return response()->json("{}", 200);
+    
     }
 }

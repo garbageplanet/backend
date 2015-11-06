@@ -55,15 +55,11 @@ class Trash extends Model
     
     /**
      * make point with lat and long values
-     * @param Array $coordinates
      * @return Illuminate\Database\Eloquent\Model
      */
     public function makePoint()
     {
-        //make point
         $affected = DB::update('UPDATE trashes SET geom = ST_SetSRID(ST_MakePoint(?, ?), 4326) WHERE id = ?', [$this->lat, $this->lng, $this->id]);
-        //$affected = DB::update('UPDATE trashes SET geom = ST_GeomFromText("POINT('.$this->lat.' ' . $this->lng . ')", 4326) WHERE id = ?', [$this->id]);
-        
         return $affected;
     }
 }

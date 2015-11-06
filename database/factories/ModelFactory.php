@@ -19,3 +19,13 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Trash::class, function (Faker\Generator $faker) {
+    return [
+        'marked_at' => '2015-11-05',
+        'lat' => $faker->latitude,
+        'lng' => $faker->longitude,
+        'amount' => 1,
+        'status' => $faker->word,
+    ];
+});
