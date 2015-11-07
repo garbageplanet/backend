@@ -19,7 +19,7 @@ class TrashesController extends Controller
        // Apply the jwt.auth middleware to all methods in this controller
        // except for the authenticate method. We don't want to prevent
        // the user from retrieving their token if they don't already have it
-        $this->middleware('jwt.auth', ['only' => ['store', 'updata', 'destroy']]);
+        $this->middleware('jwt.auth', ['only' => ['store', 'update', 'destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -30,7 +30,7 @@ class TrashesController extends Controller
     {
         $trashes = Trash::all();
         //long route to do this
-       return $trashes;
+      // return $trashes;
         $trashesArray= [];
         foreach ($trashes as $trash) {
             $array = $trash->toArray();
@@ -66,7 +66,7 @@ class TrashesController extends Controller
             FROM trashes
             WHERE trashes.geom && ST_MakeEnvelope(?, ?, ?, ?)', 
             [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
-        return $trashes;
+        //return $trashes;
         $trashesArray= [];
         foreach ($trashes as $trash) {
             $array = $trash->toArray();
