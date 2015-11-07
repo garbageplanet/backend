@@ -1,6 +1,5 @@
 <?php
-header('Access-Control-Allow-Headers: Origin, Content-Type, x-access-token, Authorization');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application

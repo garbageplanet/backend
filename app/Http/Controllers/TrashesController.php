@@ -38,7 +38,7 @@ class TrashesController extends Controller
             $trashesArray[] = $array;
         }
 
-        return response()->json($trashesArray, 200);
+        return response()->json($trashesArray, 200)->header('Access-Control-Allow-Origin', '*');
     }
 
     /**
@@ -65,7 +65,7 @@ class TrashesController extends Controller
             [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
 
         //long route to do this
-        
+
         $trashesArray= [];
         foreach ($trashes as $trash) {
             $array = $trash->toArray();
@@ -73,7 +73,7 @@ class TrashesController extends Controller
             $trashesArray[] = $array;
         }
 
-        return response()->json($trashesArray, 200);
+        return response()->json($trashesArray, 200)->header('Access-Control-Allow-Origin', '*');
     }
 
     /**
@@ -98,7 +98,7 @@ class TrashesController extends Controller
         $array = $trash->toArray();
         $array['types'] = $trash->types->pluck('type')->toArray();
 
-        return response()->json($array, 200);
+        return response()->json($array, 200)->header('Access-Control-Allow-Origin', '*');
     }
 
     /**
@@ -114,7 +114,7 @@ class TrashesController extends Controller
         $array = $trash->toArray();
         $array['types'] = $trash->types->pluck('type')->toArray();
 
-        return response()->json($array, 200);
+        return response()->json($array, 200)->header('Access-Control-Allow-Origin', '*');
     }
 
     /**
@@ -140,7 +140,7 @@ class TrashesController extends Controller
         $array = $trash->toArray();
         $array['types'] = $trash->types->pluck('type')->toArray();
 
-        return response()->json($array, 200);
+        return response()->json($array, 200)->header('Access-Control-Allow-Origin', '*');
     }
 
     /**
@@ -158,7 +158,7 @@ class TrashesController extends Controller
         $trash->delete();
         //delete types
         
-        return response()->json("{}", 200);
+        return response()->json("{}", 200)->header('Access-Control-Allow-Origin', '*');
     
     }
 }
