@@ -35,7 +35,7 @@ class Trash extends Model
 
     public function types()
     {
-        return $this->hasMany('App\TrashType');
+        return $this->hasMany('App\TrashType', 'trash_id');
     }
 
     public function cleans()

@@ -30,7 +30,8 @@ class TrashesController extends Controller
     {
         $trashes = Trash::all();
         //long route to do this
-
+        return $trashes;
+/*
         $trashesArray= [];
         foreach ($trashes as $trash) {
             $array = $trash->toArray();
@@ -39,6 +40,7 @@ class TrashesController extends Controller
         }
 
         return response()->json($trashesArray, 200)->header('Access-Control-Allow-Origin', '*');
+        */
     }
 
     /**
@@ -65,8 +67,8 @@ class TrashesController extends Controller
             [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
 
         //long route to do this
-
-        $trashesArray= [];
+        return $trashes;
+ /*       $trashesArray= [];
         foreach ($trashes as $trash) {
             $array = $trash->toArray();
             $array['types'] = $trash->types->pluck('type')->toArray();
@@ -74,6 +76,7 @@ class TrashesController extends Controller
         }
 
         return response()->json($trashesArray, 200)->header('Access-Control-Allow-Origin', '*');
+        */
     }
 
     /**
@@ -98,7 +101,7 @@ class TrashesController extends Controller
         $array = $trash->toArray();
         $array['types'] = $trash->types->pluck('type')->toArray();
 
-        return response()->json($array, 200)->header('Access-Control-Allow-Origin', '*');
+        return response()->json($array, 200);
     }
 
     /**
@@ -114,7 +117,7 @@ class TrashesController extends Controller
         $array = $trash->toArray();
         $array['types'] = $trash->types->pluck('type')->toArray();
 
-        return response()->json($array, 200)->header('Access-Control-Allow-Origin', '*');
+        return response()->json($array, 200);
     }
 
     /**
@@ -140,7 +143,7 @@ class TrashesController extends Controller
         $array = $trash->toArray();
         $array['types'] = $trash->types->pluck('type')->toArray();
 
-        return response()->json($array, 200)->header('Access-Control-Allow-Origin', '*');
+        return response()->json($array, 200);
     }
 
     /**
@@ -158,7 +161,7 @@ class TrashesController extends Controller
         $trash->delete();
         //delete types
         
-        return response()->json("{}", 200)->header('Access-Control-Allow-Origin', '*');
+        return response()->json("{}", 200);
     
     }
 }
