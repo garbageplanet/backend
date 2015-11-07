@@ -67,15 +67,6 @@ class TrashesController extends Controller
             WHERE trashes.geom && ST_MakeEnvelope(?, ?, ?, ?)', 
             [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
         return $trashes;
-        $trashesArray= [];
-        foreach ($trashes as $trash) {
-            $array = $trash->toArray();
-            $array['types'] = $trash->types->pluck('type')->toArray();
-            $trashesArray[] = $array;
-        }
-
-        $trashes = collect($trashesArray);
-        return $trashes;
     }
 
     /**

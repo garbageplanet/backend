@@ -22,9 +22,11 @@ Route::group(['prefix' => 'api'], function() {
     Route::post('register', 'AuthenticateController@postRegister');
     
     //trashes
+    
+    Route::get('trashes', 'TrashesController@index');
     Route::get('trashes/withinbounds', 'TrashesController@withinBounds');
     Route::get('trashes/{id}', 'TrashesController@show');
-    Route::get('trashes', 'TrashesController@index');
+
     Route::post('trashes', 'TrashesController@store');
     Route::put('trashes', 'TrashesController@update');
     Route::delete('trashes/{id}', 'TrashesController@destroy');
