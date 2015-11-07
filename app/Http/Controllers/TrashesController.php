@@ -30,8 +30,7 @@ class TrashesController extends Controller
     {
         $trashes = Trash::all();
         //long route to do this
-        return $trashes;
-/*
+       // return $trashes;
         $trashesArray= [];
         foreach ($trashes as $trash) {
             $array = $trash->toArray();
@@ -39,8 +38,10 @@ class TrashesController extends Controller
             $trashesArray[] = $array;
         }
 
-        return response()->json($trashesArray, 200)->header('Access-Control-Allow-Origin', '*');
-        */
+        $trashes = collect($trashesArray);
+        return $trashes;
+        //return response()->json($trashesArray, 200)->header('Access-Control-Allow-Origin', '*');
+        
     }
 
     /**
@@ -66,17 +67,15 @@ class TrashesController extends Controller
             WHERE trashes.geom && ST_MakeEnvelope(?, ?, ?, ?)', 
             [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
 
-        //long route to do this
-        return $trashes;
- /*       $trashesArray= [];
+        $trashesArray= [];
         foreach ($trashes as $trash) {
             $array = $trash->toArray();
             $array['types'] = $trash->types->pluck('type')->toArray();
             $trashesArray[] = $array;
         }
 
-        return response()->json($trashesArray, 200)->header('Access-Control-Allow-Origin', '*');
-        */
+        $trashes = collect($trashesArray);
+        return $trashes;
     }
 
     /**
@@ -101,7 +100,8 @@ class TrashesController extends Controller
         $array = $trash->toArray();
         $array['types'] = $trash->types->pluck('type')->toArray();
 
-        return response()->json($array, 200);
+        $trash = collect($array);
+        return $trash;
     }
 
     /**
@@ -116,8 +116,8 @@ class TrashesController extends Controller
         //long route to do this
         $array = $trash->toArray();
         $array['types'] = $trash->types->pluck('type')->toArray();
-
-        return response()->json($array, 200);
+        $trash = collect($array);
+        return $trash;
     }
 
     /**
@@ -143,7 +143,8 @@ class TrashesController extends Controller
         $array = $trash->toArray();
         $array['types'] = $trash->types->pluck('type')->toArray();
 
-        return response()->json($array, 200);
+        $trash = collect($array);
+        return $trash;
     }
 
     /**
