@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Trash;
+use App\User;
 use JWTAuth;
 use DB;
 use Carbon\Carbon;
@@ -99,9 +100,6 @@ class TrashesController extends Controller
     {
         $data = $request->all(); //can be changed to request->only('first', 'second');
         //$user = JWTAuth::parseToken()->authenticate();
-        if (!isset($data['marked_at'] )) {
-            $data['marked_at'] = Carbon::now()->toDateString();
-        }
        
         $trash = Auth::user()->markedTrashes()->create($data); 
         $trash->makePoint();
@@ -113,6 +111,19 @@ class TrashesController extends Controller
 
         $trash = collect($array);
         return $trash;
+    }
+
+    public function storeWithoutUser(Request $request)
+    {
+        $data = $request->all();
+        $data['amount'] = 0;
+        //find first user
+        $user = User::first();
+        $data['marked_by'] = $user->id;
+        $trash = Trash::create($data);
+        $trash->makePoint();
+        return $trash;
+
     }
 
     /**

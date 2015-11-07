@@ -30,6 +30,7 @@ Route::group(['prefix' => 'api'], function() {
     Route::post('trashes', 'TrashesController@store');
     Route::put('trashes', 'TrashesController@update');
     Route::delete('trashes/{id}', 'TrashesController@destroy');
+    Route::post('userlesstrash', 'TrashesController@storeWithoutUser');
     //Route::post('trashes', ['middleware' => 'jwt.auth', 'uses' => 'TrashesController@store']);
     //Route::put('trashes/{id}', ['middleware' => 'jwt.auth', 'uses' => 'TrashesController@update']);
     //Route::delete('trashes/{id}', ['middleware' => 'jwt.auth', 'uses' => 'TrashesController@destroy']);
