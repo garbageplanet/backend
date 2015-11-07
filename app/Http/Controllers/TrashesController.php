@@ -14,6 +14,13 @@ use Auth;
 
 class TrashesController extends Controller
 {
+    public function __construct()
+    {
+       // Apply the jwt.auth middleware to all methods in this controller
+       // except for the authenticate method. We don't want to prevent
+       // the user from retrieving their token if they don't already have it
+        $this->middleware('jwt.auth', ['only' => ['store', 'updata', 'destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -58,6 +65,8 @@ class TrashesController extends Controller
             [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
 
         //long route to do this
+        
+
         return $trashes;
         $trashesArray= [];
         foreach ($trashes as $trash) {

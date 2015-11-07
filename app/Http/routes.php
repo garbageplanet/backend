@@ -25,9 +25,12 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('trashes/withinbounds', 'TrashesController@withinBounds');
     Route::get('trashes/{id}', 'TrashesController@show');
     Route::get('trashes', 'TrashesController@index');
-    Route::post('trashes', ['middleware' => 'jwt.auth', 'uses' => 'TrashesController@store']);
-    Route::put('trashes/{id}', ['middleware' => 'jwt.auth', 'uses' => 'TrashesController@update']);
-    Route::delete('trashes/{id}', ['middleware' => 'jwt.auth', 'uses' => 'TrashesController@destroy']);
+    Route::post('trashes', 'TrashesController@store');
+    Route::put('trashes', 'TrashesController@update');
+    Route::delete('trashes', 'TrashesController@destroy');
+    //Route::post('trashes', ['middleware' => 'jwt.auth', 'uses' => 'TrashesController@store']);
+    //Route::put('trashes/{id}', ['middleware' => 'jwt.auth', 'uses' => 'TrashesController@update']);
+    //Route::delete('trashes/{id}', ['middleware' => 'jwt.auth', 'uses' => 'TrashesController@destroy']);
 
     
 });
