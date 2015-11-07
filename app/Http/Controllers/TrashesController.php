@@ -31,7 +31,7 @@ class TrashesController extends Controller
             $trashesArray[] = $array;
         }
 
-        return response()->json($trashesArray);
+        return response()->json($trashesArray, 200);
     }
 
     /**
@@ -65,7 +65,7 @@ class TrashesController extends Controller
             $trashesArray[] = $array;
         }
 
-        return response()->json($trashesArray);
+        return response()->json($trashesArray, 200);
     }
 
     /**
@@ -90,7 +90,7 @@ class TrashesController extends Controller
         $array = $trash->toArray();
         $array['types'] = $trash->types->pluck('type')->toArray();
 
-        return response()->json($array);
+        return response()->json($array, 200);
     }
 
     /**
@@ -106,7 +106,7 @@ class TrashesController extends Controller
         $array = $trash->toArray();
         $array['types'] = $trash->types->pluck('type')->toArray();
 
-        return response()->json($array);
+        return response()->json($array, 200);
     }
 
     /**
@@ -132,7 +132,7 @@ class TrashesController extends Controller
         $array = $trash->toArray();
         $array['types'] = $trash->types->pluck('type')->toArray();
 
-        return response()->json($array);
+        return response()->json($array, 200);
     }
 
     /**
