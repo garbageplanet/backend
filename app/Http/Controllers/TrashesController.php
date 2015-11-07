@@ -30,7 +30,7 @@ class TrashesController extends Controller
     {
         $trashes = Trash::all();
         //long route to do this
-      // return $trashes;
+        return $trashes;
         $trashesArray= [];
         foreach ($trashes as $trash) {
             $array = $trash->toArray();
@@ -66,7 +66,7 @@ class TrashesController extends Controller
             FROM trashes
             WHERE trashes.geom && ST_MakeEnvelope(?, ?, ?, ?)', 
             [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
-        //return $trashes;
+        return $trashes;
         $trashesArray= [];
         foreach ($trashes as $trash) {
             $array = $trash->toArray();
