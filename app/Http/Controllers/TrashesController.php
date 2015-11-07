@@ -29,8 +29,9 @@ class TrashesController extends Controller
     public function index()
     {
         $trashes = Trash::all();
+
         //long route to do this
-        return $trashes;
+        //dd($trashes);
         $trashesArray= [];
         foreach ($trashes as $trash) {
             $array = $trash->toArray();
@@ -60,13 +61,32 @@ class TrashesController extends Controller
         $sw_lng = $coordinates[3];
         $ne_lat = $coordinates[0];
         $ne_lng = $coordinates[1];
-        
+    
+
         $trashes = DB::select('
             SELECT *
             FROM trashes
-            WHERE trashes.geom && ST_MakeEnvelope(?, ?, ?, ?)', 
+        
+            WHERE trashes.geom && ST_MakeEnvelope(?, ?, ?, ?)'
+            , 
             [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
-        return $trashes;
+
+        //get id's of the trashes
+        $trash_ids = [];
+        foreach ($trashes as $trash) {
+            $trash_ids[] = $trash->id;
+        }
+        $trashes = Trash::whereIn('id', $trash_ids)->get();
+        
+        $trashesArray= [];
+        foreach ($trashes as $trash) {
+            $array = $trash->toArray();
+            $array['types'] = $trash->types->pluck('type')->toArray();
+            $trashesArray[] = $array;
+        }
+
+        $trashes = collect($trashesArray);
+        return $trashes;        
     }
 
     /**
