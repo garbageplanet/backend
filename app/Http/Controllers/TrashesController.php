@@ -58,6 +58,7 @@ class TrashesController extends Controller
             [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
 
         //long route to do this
+        return $trashes;
         $trashesArray= [];
         foreach ($trashes as $trash) {
             $array = $trash->toArray();
