@@ -5,6 +5,7 @@ Made with Laravel 5.1
 Aim is to provide simple api for the Roska UI app.
 
 ***Functionalities done:***
+
 - create trash POST: /api/trashes
 - get trash GET: /api/trashes/{id}
 - delete trash DELETE: /api/trashes/{id}
