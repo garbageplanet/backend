@@ -31,10 +31,11 @@ Route::group(['prefix' => 'api'], function() {
     Route::put('trashes', 'TrashesController@update');
     Route::delete('trashes/{id}', 'TrashesController@destroy');
     Route::post('userlesstrash', 'TrashesController@storeWithoutUser');
-    //Route::post('trashes', ['middleware' => 'jwt.auth', 'uses' => 'TrashesController@store']);
-    //Route::put('trashes/{id}', ['middleware' => 'jwt.auth', 'uses' => 'TrashesController@update']);
-    //Route::delete('trashes/{id}', ['middleware' => 'jwt.auth', 'uses' => 'TrashesController@destroy']);
-
+  
+    //monitoring tiles
+    Route::get('monitoringtiles', 'MonitoringTilesController@listByUser');
+    Route::post('monitoringtiles', 'MonitoringTilesController@store');
+    Route::delete('monitoringtiles/{id}', 'MonitoringTilesController@destroy');
     
 });
 Route::get('/welcome', function () {

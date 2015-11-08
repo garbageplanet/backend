@@ -66,6 +66,11 @@ class User extends Model implements AuthenticatableContract,
         return $this->hasMany('App\Clean', 'user_id');
     }
 
+    public function monitoringTiles()
+    {
+        return $this->hasMany('App\MonitoringTile');
+    }
+
     /********************
      * Relationships ends
      */
