@@ -78,7 +78,7 @@ class Trash extends Model
             'description' => 'garbagapla.net-palvelusta lähetetty ilmoitus merkittävästä roskan määrästä',
             'service_code' => '246',
             'lat' => $this->lat,
-            'lng' => $this->lng,
+            'long' => $this->lng,
         ];
         $ch = curl_init();
         // Set URL to download
