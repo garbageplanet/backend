@@ -1,25 +1,23 @@
-Roska project demo API
+***Roska project demo API***
 
 Made with Laravel 5.1
 
 Aim is to provide simple api for the Roska UI app.
 
-Database tables:
--cleans
--meetings
--tags
--trashes
--users
+***Functionalities done:***
+create trash POST: /api/trashes
+get trash GET: /api/trashes/{id}
+delete trash DELETE: /api/trashes/{id}
+get trashes in bounds (coordinates: ne, sw) GET: /api/trashes/withinbounds?bounds=({ne_lat, ne_lng, sw_lat, sw_lng})
+authenticate user POST: /api/authenticate
+register user POST: /api/register
+get user details of authenticated user GET: /api/authenticate/user
 
-Database changes are to be done in /database/migrations
-Database is currently PostgreSql
+Authentication is made with JWT authentication tokens
 
-Models are in /app -folder
-Controller are in /app/Http/Controllers -folder
-Routes are in /app/Http/routes.php -file
+***Integrations:***
 
-There are no views (this is rest api :)
+- send garbage details to City of Helsinki Issue Reporting Service API (Service code: 246)
+- receive garbage data from CoHIRS API
 
-Authentication is JWT based, token is sent to client on authentication, and authorization needs the token sent by client
 
-TODO: create dev branch and other branches when necessary
