@@ -15,12 +15,19 @@ class MonitoringTilesController extends Controller
 
     public function __construct()
     {
-        $this->middleware('jwt.auth', ['only' => ['listByUser', 'store', 'destroy']]);
+        $this->middleware('jwt.auth', ['only' => ['listByUser', 'store', 'trashesInTile', 'destroy']]);
     }
 
     public function listByUser()
     {
         return Auth::user()->monitoringTiles;
+    }
+
+    public function trashesInTile($id)
+    {
+        //call func trashesInside
+        $monitoringTile = MonitoringTile::findOrFail($id);
+        return $monitoringTile->trashesInsideTile();
     }
 
     public function store(Request $request)

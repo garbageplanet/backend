@@ -36,6 +36,7 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('monitoringtiles', 'MonitoringTilesController@listByUser');
     Route::post('monitoringtiles', 'MonitoringTilesController@store');
     Route::delete('monitoringtiles/{id}', 'MonitoringTilesController@destroy');
+    Route::get('monitoringtiles/{id}', 'MonitoringTilesController@trashesInTile');
     
 });
 Route::get('/welcome', function () {
