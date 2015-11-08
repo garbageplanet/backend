@@ -115,13 +115,27 @@ class TrashesController extends Controller
 
     public function storeWithoutUser(Request $request)
     {
+        //manually parse token because its optional
+        if ($request->header('Authorization')) {
+            $user = JWTAuth::parseToken()->authenticate();
+        } 
+        else {
+            $user = User::first();
+        }
+
         $data = $request->all();
-        $data['amount'] = 0;
-        //find first user
-        $user = User::first();
         $data['marked_by'] = $user->id;
+        if (!isset($data['amount']) ){
+            $data['amount'] = 0;
+        }
+        
+        
         $trash = Trash::create($data);
         $trash->makePoint();
+        //types
+        if (isset($data['types'])) {
+            $trash->addTypes($data['types']); 
+        }
         return $trash;
 
     }
