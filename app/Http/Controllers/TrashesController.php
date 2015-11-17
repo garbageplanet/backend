@@ -100,7 +100,11 @@ class TrashesController extends Controller
     {
         $data = $request->all(); //can be changed to request->only('first', 'second');
         //$user = JWTAuth::parseToken()->authenticate();
-       
+        if (!Auth::check()) {
+            $glome = Glome::createGlomeAccount();
+            $user = User::create('email' => $glome, 'password' => '12345678', 'name' => $glome);
+            Auth::attempt(['email' => $glome, 'password' => '12345678']));
+        }
         $trash = Auth::user()->markedTrashes()->create($data); 
         $trash->makePoint();
         $trash->addTypes($request->types); 
@@ -112,6 +116,7 @@ class TrashesController extends Controller
         $array['types'] = $trash->types->pluck('type')->toArray();
 
         $trash = collect($array);
+
         return $trash;
     }
 

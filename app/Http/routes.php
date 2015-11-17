@@ -20,6 +20,10 @@ Route::group(['prefix' => 'api'], function() {
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::get('authenticate/user', 'AuthenticateController@getAuthenticatedUser');
     Route::post('register', 'AuthenticateController@postRegister');
+
+    //glome
+    Route::post('glome/create', 'GlomeController@create');
+    Route::get('glome/show/{id}', 'GlomeController@show');
     
     //trashes
     
