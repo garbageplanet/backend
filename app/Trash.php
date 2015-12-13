@@ -19,7 +19,7 @@ class Trash extends Model
         'amount',
         'image_url',
         'geom'
-        //waht do we need
+        //what do we need
     ];
 
     /**
@@ -51,7 +51,7 @@ class Trash extends Model
     /********************
      * Relationships ends
      */
-    
+
     /**
      * make point with lat and long values
      * @return Illuminate\Database\Eloquent\Model
@@ -89,15 +89,15 @@ class Trash extends Model
         curl_setopt($ch, CURLOPT_USERAGENT, "MozillaXYZ/1.0");
         // Include header in result? (0 = yes, 1 = no)
         curl_setopt($ch, CURLOPT_HEADER, 0);
-     
+
         // Should cURL return or print out the data? (true = return, false = print)
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-     
+
         // Timeout in seconds
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-     
+
         // Download the given URL, and return output
         $output = curl_exec($ch);
         $outputArray = json_decode($output);
