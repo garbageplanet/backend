@@ -43,7 +43,7 @@ class TrashesController extends Controller
         $trashes = collect($trashesArray);
         return $trashes;
         //return response()->json($trashesArray, 200)->header('Access-Control-Allow-Origin', '*');
-        
+
     }
 
     /**
@@ -56,20 +56,20 @@ class TrashesController extends Controller
         //TODO: Validate (regex validation to bounds)
         //
         // parse bounds
-        
+
         $coordinates = explode(", ", $request->bounds);
         $sw_lat = $coordinates[2];
         $sw_lng = $coordinates[3];
         $ne_lat = $coordinates[0];
         $ne_lng = $coordinates[1];
-    
+
 
         $trashes = DB::select('
             SELECT *
             FROM trashes
-        
+
             WHERE trashes.geom && ST_MakeEnvelope(?, ?, ?, ?)'
-            , 
+            ,
             [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
 
         //get id's of the trashes
@@ -78,7 +78,7 @@ class TrashesController extends Controller
             $trash_ids[] = $trash->id;
         }
         $trashes = Trash::whereIn('id', $trash_ids)->get();
-        
+
         $trashesArray= [];
         foreach ($trashes as $trash) {
             $array = $trash->toArray();
@@ -87,7 +87,7 @@ class TrashesController extends Controller
         }
 
         $trashes = collect($trashesArray);
-        return $trashes;        
+        return $trashes;
     }
 
     /**
@@ -102,12 +102,12 @@ class TrashesController extends Controller
         //$user = JWTAuth::parseToken()->authenticate();
         if (!Auth::check()) {
             $glome = Glome::createGlomeAccount();
-            $user = User::create('email' => $glome, 'password' => '12345678', 'name' => $glome);
-            Auth::attempt(['email' => $glome, 'password' => '12345678']));
+            $user = User::create(['email' => $glome, 'password' => '12345678', 'name' => $glome]);
+            Auth::attempt(['email' => $glome, 'password' => '12345678']);
         }
-        $trash = Auth::user()->markedTrashes()->create($data); 
+        $trash = Auth::user()->markedTrashes()->create($data);
         $trash->makePoint();
-        $trash->addTypes($request->types); 
+        $trash->addTypes($request->types);
         if ($trash->amount > 3) {
             $trash->notifyHelsinkiAboutTheTrash();
         }
@@ -125,7 +125,7 @@ class TrashesController extends Controller
         //manually parse token because its optional
         if ($request->header('Authorization')) {
             $user = JWTAuth::parseToken()->authenticate();
-        } 
+        }
         else {
             $user = User::first();
         }
@@ -135,18 +135,18 @@ class TrashesController extends Controller
         if (!isset($data['amount']) ){
             $data['amount'] = 0;
         }
-        
-        
+
+
         $trash = Trash::create($data);
         $trash->makePoint();
         //types
         if (isset($data['types'])) {
-            $trash->addTypes($data['types']); 
+            $trash->addTypes($data['types']);
         }
         if ($trash->amount > 3) {
             $trash->notifyHelsinkiAboutTheTrash();
         }
-        
+
         return $trash;
 
     }
@@ -185,7 +185,7 @@ class TrashesController extends Controller
         //delete types
         $trash->types()->delete();
         //add new types
-        $trash->addTypes($request->types); 
+        $trash->addTypes($request->types);
 
         $array = $trash->toArray();
         $array['types'] = $trash->types->pluck('type')->toArray();
@@ -208,8 +208,8 @@ class TrashesController extends Controller
         $trash->types()->delete();
         $trash->delete();
         //delete types
-        
+
         return response()->json("{}", 200);
-    
+
     }
 }
