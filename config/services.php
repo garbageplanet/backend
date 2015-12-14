@@ -35,4 +35,10 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'glome' => [
+        'server' => env('GLOME_API_SERVER'),
+        'key' => env('GLOME_API_KEY'),
+        'uid' => env('GLOME_API_UID'),
+    ],
+
 ];

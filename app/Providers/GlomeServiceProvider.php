@@ -1,13 +1,52 @@
 <?php
 
-namespace App;
+namespace App\Providers;
 
 use Log;
 use Curl\Curl;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\ServiceProvider;
 
-class Glome extends Model
+class GlomeServiceProvider extends ServiceProvider
 {
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = false;
+
+    /**
+     *
+     */
+    protected function configPath()
+    {
+        return __DIR__ . '/../../config/glome.php';
+    }
+
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->publishes([$this->configPath() => config_path('glome.php')]);
+    }
+
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->mergeConfigFrom($this->configPath(), 'glome');
+    }
+
+    /**
+     * Forms Glome API request URLs by adding depending on the
+     * API entry point
+     */
     private static function getGlomeUrl($entry, $glomeid = null)
     {
         $type = 'post';
@@ -33,10 +72,14 @@ class Glome extends Model
             $ret .= '?apikey=' . env('GLOME_APIKEY') . '&apiuid=' . env('GLOME_APIUID');
         }
 
-        Log::debug('Glome::getGlomeUrl: ' . $ret);
+        Log::debug('GlomeServiceProvider::getGlomeUrl: ' . $ret);
         return $ret;
     }
 
+    /**
+     *  Implements
+     *  https://api.glome.me/simpleapi/#api-__Soft_Account_API-PostAccountsCreate
+     */
     public static function createGlomeAccount()
     {
         $data = [
@@ -44,7 +87,7 @@ class Glome extends Model
             'apiuid' => env('GLOME_APIUID'),
         ];
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, Glome::getGlomeUrl('accounts_create'));
+        curl_setopt($curl, CURLOPT_URL, GlomeServiceProvider::getGlomeUrl('accounts_create'));
         curl_setopt($curl, CURLOPT_HEADER, 0);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_POST, true);
@@ -56,11 +99,15 @@ class Glome extends Model
         $resp = curl_exec($curl);
         curl_close($curl);
 
-        Log::debug('Glome::createGlomeAccount: ' . $resp);
+        Log::debug('GlomeServiceProvider::createGlomeAccount: ' . $resp);
 
         return $resp;
     }
 
+    /**
+     *  Implements
+     *  https://api.glome.me/simpleapi/#api-__Soft_Account_API-GetAccountsAccountShow
+     */
     public static function showGlomeAccount($glomeid = null)
     {
         if ($glomeid == '' or $glomeid == null) return null;
@@ -68,14 +115,14 @@ class Glome extends Model
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => Glome::getGlomeUrl('accounts_show', $glomeid)
+            CURLOPT_URL => GlomeServiceProvider::getGlomeUrl('accounts_show', $glomeid)
         ));
 
         $resp = curl_exec($curl);
         curl_close($curl);
         $outputArray = json_decode($resp, true);
 
-        Log::debug('Glome::showGlomeAccount: ' . $resp);
+        Log::debug('GlomeServiceProvider::showGlomeAccount: ' . $resp);
 
         return $resp;
     }
