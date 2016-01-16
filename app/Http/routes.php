@@ -22,11 +22,11 @@ Route::group(['prefix' => 'api'], function() {
     Route::post('register', 'AuthenticateController@postRegister');
 
     //glome
-    Route::post('glome/create', 'GlomeController@create');
-    Route::get('glome/show/{id}', 'GlomeController@show');
-    
+    Route::post('glome/create', 'GlomeController@createSoftAccount');
+    Route::get('glome/show/{id}', 'GlomeController@showSoftAccount');
+
     //trashes
-    
+
     Route::get('trashes', 'TrashesController@index');
     Route::get('trashes/withinbounds', 'TrashesController@withinBounds');
     Route::get('trashes/{id}', 'TrashesController@show');
@@ -35,13 +35,13 @@ Route::group(['prefix' => 'api'], function() {
     Route::put('trashes', 'TrashesController@update');
     Route::delete('trashes/{id}', 'TrashesController@destroy');
     Route::post('userlesstrash', 'TrashesController@storeWithoutUser');
-  
+
     //monitoring tiles
     Route::get('monitoringtiles', 'MonitoringTilesController@listByUser');
     Route::post('monitoringtiles', 'MonitoringTilesController@store');
     Route::delete('monitoringtiles/{id}', 'MonitoringTilesController@destroy');
     Route::get('monitoringtiles/{id}', 'MonitoringTilesController@trashesInTile');
-    
+
 });
 Route::get('/welcome', function () {
     return view('welcome');
