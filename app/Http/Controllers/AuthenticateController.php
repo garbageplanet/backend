@@ -60,9 +60,13 @@ class AuthenticateController extends AuthController
      * @param Request $request
      * @return $user
      */
-    public function getAuthenticatedUser()
+    public function getAuthenticatedUser($token = null)
     {
         Log::debug('getAuthenticatedUser start');
+
+        if ($token != null) {
+            JWTAuth::setToken($token);
+        }
 
         try {
             if (! $user = JWTAuth::parseToken()->authenticate()) {
@@ -115,11 +119,12 @@ class AuthenticateController extends AuthController
      */
     protected function loginUser($credentials)
     {
-        Log::debug('loginUser start');
+        Log::debug('loginUser start with credentials: ' . implode('|', $credentials));
 
         try {
             // verify the credentials and create a token for the user
-            if (! $token = JWTAuth::attempt($credentials)) {
+            $token = JWTAuth::attempt($credentials);
+            if (! $token) {
                 return 401;
             }
         } catch (JWTException $e) {
