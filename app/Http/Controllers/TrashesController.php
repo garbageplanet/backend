@@ -63,7 +63,6 @@ class TrashesController extends Controller
         $ne_lat = $coordinates[0];
         $ne_lng = $coordinates[1];
 
-
         $trashes = DB::select('
             SELECT *
             FROM trashes
