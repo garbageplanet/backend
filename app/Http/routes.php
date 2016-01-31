@@ -26,7 +26,6 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('glome/show/{id}', 'GlomeController@showSoftAccount');
 
     //trashes
-
     Route::get('trashes', 'TrashesController@index');
     Route::get('trashes/withinbounds', 'TrashesController@withinBounds');
     Route::get('trashes/{id}', 'TrashesController@show');
@@ -34,16 +33,30 @@ Route::group(['prefix' => 'api'], function() {
     Route::post('trashes', 'TrashesController@store');
     Route::put('trashes', 'TrashesController@update');
     Route::delete('trashes/{id}', 'TrashesController@destroy');
-    Route::post('userlesstrash', 'TrashesController@storeWithoutUser');
+    Route::post('userlesstrash', 'TrashesController@storeWithoutUser'); // this needs to be removed
 
-    //monitoring tiles
-    Route::get('monitoringtiles', 'MonitoringTilesController@listByUser');
-    Route::post('monitoringtiles', 'MonitoringTilesController@store');
-    Route::delete('monitoringtiles/{id}', 'MonitoringTilesController@destroy');
-    Route::get('monitoringtiles/{id}', 'MonitoringTilesController@trashesInTile');
+    // Shapes (polylines and polygons)
+    Route::get('shapes', 'ShapesController@listByUser');
+    Route::get('Shapes/withinbounds', 'ShapesController@withinBounds');
+    Route::get('Shapes/{id}', 'ShapesController@show');
+    
+    Route::post('shapes', 'ShapesController@store');
+    Route::put('shapes', 'ShapesController@update');
+    Route::delete('shapes/{id}', 'ShapesController@destroy');
+    
+    // Garbage inside an area
+    Route::get('shapes/{id}', 'ShapesController@trashesInTile');
+    
+    // Cleanings
+    Route::get('cleaning', 'CleaningController@index');
+    Route::get('cleaning/withinbounds', 'CleaningController@withinBounds');
+    Route::get('cleaning/{id}', 'CleaningController@show');
+
+    Route::post('cleaning', 'CleaningController@store');
+    Route::put('cleaning', 'CleaningController@update');
+    Route::delete('cleaning/{id}', 'CleaningController@destroy');
 
 });
 Route::get('/welcome', function () {
     return view('welcome');
 });
-

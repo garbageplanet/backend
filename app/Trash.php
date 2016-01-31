@@ -11,6 +11,9 @@ class Trash extends Model
      * The attributes that are mass assignable.
      *
      * @var array
+     
+     TODO get lat lng as a single field
+      
      */
     protected $fillable = [
         'marked_by',
