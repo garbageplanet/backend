@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Log;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
@@ -34,6 +35,7 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
+        Log::debug('Authenticate handle start');
         if ($this->auth->guest()) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
