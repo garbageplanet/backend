@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Confirm extends Model
 {
     /**
-    NB: A 'Clean' is the event of cleaning garbage, not an actual cleaning event where people gather to clean garbage. A cleaning/gathering event is referred to as a 'Cleaning'.
+    NB: A 'Confirm' is the event of confirming there is garbage at a lcoation.
      */
     protected $fillable = [
         'trash_id',
@@ -33,6 +33,11 @@ class Confirm extends Model
     public function trash()
     {
         return $this->belongsTo('App\Trash', 'trash_id');
+    }
+    
+    public function litter()
+    {
+        return $this->belongsTo('App\Trash', 'litter_id');
     }
 
     /********************
