@@ -35,17 +35,28 @@ Route::group(['prefix' => 'api'], function() {
     Route::delete('trashes/{id}', 'TrashesController@destroy');
     Route::post('userlesstrash', 'TrashesController@storeWithoutUser'); // this needs to be removed
 
-    // Shapes (polylines and polygons)
-    Route::get('shapes', 'ShapesController@listByUser');
-    Route::get('Shapes/withinbounds', 'ShapesController@withinBounds');
-    Route::get('Shapes/{id}', 'ShapesController@show');
+    // Litter (polylines)
+    Route::get('litters', 'LittersController@listByUser');
+    Route::get('litters/withinbounds', 'LittersController@withinBounds');
+    Route::get('Shapes/{id}', 'LittersController@show');
     
-    Route::post('shapes', 'ShapesController@store');
-    Route::put('shapes', 'ShapesController@update');
-    Route::delete('shapes/{id}', 'ShapesController@destroy');
+    Route::post('litters', 'LittersController@store');
+    Route::put('litters', 'LittersController@update');
+    Route::delete('litters/{id}', 'LittersController@destroy');
     
-    // Garbage inside an area
-    Route::get('shapes/{id}', 'ShapesController@trashesInTile');
+    // Areas (polygons)
+    Route::get('areas', 'AreasController@listByUser');
+    Route::get('areasareas/withinbounds', 'AreasController@withinBounds');
+    Route::get('areasareas/{id}', 'AreasController@show');
+    
+    Route::post('areas', 'AreasController@store');
+    Route::put('areas', 'AreasController@update');
+    Route::delete('areas/{id}', 'AreasController@destroy');
+    
+    // Features inside an area
+    Route::get('shapes/{id}', 'ShapesController@trashesInArea');
+    Route::get('shapes/{id}', 'ShapesController@littersInArea');
+    Route::get('shapes/{id}', 'ShapesController@cleaningsInArea');
     
     // Cleanings
     Route::get('cleaning', 'CleaningController@index');

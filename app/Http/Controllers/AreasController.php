@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\shape;
+use App\Area;
 use App\User;
 use JWTAuth;
 use DB;
 use Carbon\Carbon;
 use Auth;
 
-class ShapesController extends Controller
+class AreasController extends Controller
 {
     public function __construct()
     {
@@ -29,20 +29,20 @@ class ShapesController extends Controller
      */
     public function index()
     {
-        $shapes = Shape::all();
+        $areas = Area::all();
 
         //long route to do this
-        //dd($shapes);
-        $shapesArray= [];
-        foreach ($shapes as $shape) {
-            $array = $shape->toArray();
-            $array['types'] = $shape->types->pluck('type')->toArray();
-            $shapesArray[] = $array;
+        //dd($areas);
+        $areasArray= [];
+        foreach ($areas as $area) {
+            $array = $area->toArray();
+            $array['types'] = $area->types->pluck('type')->toArray();
+            $areasArray[] = $array;
         }
 
-        $shapes = collect($shapesArray);
-        return $shapes;
-        //return response()->json($shapesArray, 200)->header('Access-Control-Allow-Origin', '*');
+        $areas = collect($areasArray);
+        return $areas;
+        //return response()->json($areasArray, 200)->header('Access-Control-Allow-Origin', '*');
 
     }
 
@@ -63,30 +63,30 @@ class ShapesController extends Controller
         $ne_lat = $coordinates[0];
         $ne_lng = $coordinates[1];
 
-        $shapes = DB::select('
+        $areas = DB::select('
             SELECT *
-            FROM shapes
+            FROM areas
 
-            WHERE shapes.geom && ST_MakeEnvelope(?, ?, ?, ?)'
+            WHERE areas.geom && ST_MakeEnvelope(?, ?, ?, ?)'
             ,
             [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
 
-        //get id's of the shapes
-        $shape_ids = [];
-        foreach ($shapes as $shape) {
-            $shape_ids[] = $shape->id;
+        //get id's of the areas
+        $area_ids = [];
+        foreach ($areas as $area) {
+            $area_ids[] = $area->id;
         }
-        $shapes = shape::whereIn('id', $shape_ids)->get();
+        $areas = area::whereIn('id', $area_ids)->get();
 
-        $shapesArray= [];
-        foreach ($shapes as $shape) {
-            $array = $shape->toArray();
-            $array['types'] = $shape->types->pluck('type')->toArray();
-            $shapesArray[] = $array;
+        $areasArray= [];
+        foreach ($areas as $area) {
+            $array = $area->toArray();
+            $array['types'] = $area->types->pluck('type')->toArray();
+            $areasArray[] = $array;
         }
 
-        $shapes = collect($shapesArray);
-        return $shapes;
+        $areas = collect($areasArray);
+        return $areas;
     }
 
     /**
@@ -104,16 +104,16 @@ class ShapesController extends Controller
             $user = User::create(['email' => $glome, 'password' => '12345678', 'name' => $glome]);
             Auth::attempt(['email' => $glome, 'password' => '12345678']);
         }
-        $shape = Auth::user()->markedshapes()->create($data);
-        $shape->makePoint(); // FIXME array of points
-        $shape->addTypes($request->types);
+        $area = Auth::user()->markedareas()->create($data);
+        $area->makePoint(); // FIXME array of points
+        $area->addTypes($request->types);
         //long route to do this
-        $array = $shape->toArray();
-        $array['types'] = $shape->types->pluck('type')->toArray(); // FIXME we need type to be reserved to the type of shape, not the type of trash
+        $array = $area->toArray();
+        $array['types'] = $area->types->pluck('type')->toArray(); // FIXME we need type to be reserved to the type of area, not the type of trash
 
-        $shape = collect($array);
+        $area = collect($array);
 
-        return $shape;
+        return $area;
     }
 
     /**
@@ -124,12 +124,12 @@ class ShapesController extends Controller
      */
     public function show($id)
     {
-        $shape = Shape::findOrFail($id);
+        $area = Area::findOrFail($id);
         //long route to do this
-        $array = $shape->toArray();
-        $array['types'] = $shape->types->pluck('type')->toArray();
-        $shape = collect($array);
-        return $shape;
+        $array = $area->toArray();
+        $array['types'] = $area->types->pluck('type')->toArray();
+        $area = collect($array);
+        return $area;
     }
 
     /**
@@ -143,20 +143,20 @@ class ShapesController extends Controller
     {
         //currently anyone authenticated user can update anything
         //find id
-        $shape = Shape::findOrFail($id);
+        $area = Area::findOrFail($id);
 
         //update request
-        $shape->update($request->all());
+        $area->update($request->all());
         //delete types
-        $shape->types()->delete();
+        $area->types()->delete();
         //add new types
-        $shape->addTypes($request->types);
+        $area->addTypes($request->types);
 
-        $array = $shape->toArray();
-        $array['types'] = $shape->types->pluck('type')->toArray();
+        $array = $area->toArray();
+        $array['types'] = $area->types->pluck('type')->toArray();
 
-        $shape = collect($array);
-        return $shape;
+        $area = collect($array);
+        return $area;
     }
 
     /**
@@ -168,10 +168,10 @@ class ShapesController extends Controller
     public function destroy($id)
     {
         //find id
-        $shape = Shape::findOrFail($id);
+        $area = Area::findOrFail($id);
         //delete
-        $shape->types()->delete();
-        $shape->delete();
+        $area->types()->delete();
+        $area->delete();
         //delete types
 
         return response()->json("{}", 200);
