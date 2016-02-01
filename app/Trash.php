@@ -17,12 +17,18 @@ class Trash extends Model
      */
     protected $fillable = [
         'marked_by',
+        'type',
         'lat',
         'lng',
         'amount',
+        'size',
+        'embed',
+        'todo',
+        'confirmed',
+        'cleaned',
         'image_url',
+        'tag',
         'geom'
-        //what do we need
     ];
 
     /**
@@ -37,6 +43,11 @@ class Trash extends Model
      */
 
     public function types()
+    {
+        return $this->hasMany('App\TrashType', 'trash_id');
+    }
+    
+    public function tags()
     {
         return $this->hasMany('App\TrashType', 'trash_id');
     }
