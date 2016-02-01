@@ -18,10 +18,9 @@ class Meeting extends Model
         'lng',
         'place',
         'name',
-        'description',
+        'note',
         'organizer',
-        'begins_at',
-        'ends_at'
+        'begins_at'
     ];
 
     /**

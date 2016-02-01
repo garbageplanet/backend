@@ -8,7 +8,7 @@ Repository for the garbagepla.net api. You can visit the front end [here](http:/
 
 ### Models
 
-- [ ] add models for cleanings, litter and area.
+- [ ] fix geom creation in Area and Litter models
 - [ ] add regex checks for fields in all controllers.
 
 #### Licence

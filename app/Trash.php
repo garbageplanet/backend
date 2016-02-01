@@ -13,21 +13,19 @@ class Trash extends Model
      * @var array
      
      TODO get lat lng as a single field
+     TODO make a 'cleaned' - when a marker is marked as cleaned - Model 
       
      */
     protected $fillable = [
         'marked_by',
-        'type',
         'lat',
         'lng',
         'amount',
         'size',
         'embed',
         'todo',
-        'confirmed',
         'cleaned',
         'image_url',
-        'tag',
         'geom'
     ];
 
@@ -49,7 +47,12 @@ class Trash extends Model
     
     public function tags()
     {
-        return $this->hasMany('App\TrashType', 'trash_id');
+        return $this->hasMany('App\Tag', 'trash_id');
+    }
+    
+        public function confirms()
+    {
+        return $this->hasMany('App\Confirm', 'trash_id');
     }
 
     public function cleans()
@@ -57,6 +60,7 @@ class Trash extends Model
         return $this->hasMany('App\Clean', 'trash_id');
     }
 
+    // TODO creator() vs user() for ownership?, aren't they the same
     public function creator()
     {
         return $this->belongsTo('App\User', 'marked_by');
