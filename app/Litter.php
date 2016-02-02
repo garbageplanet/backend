@@ -71,13 +71,16 @@ class Litter extends Model
      */
 
     /**
-     * make point with lat and long values
+     * make point with latlng values
      * @return Illuminate\Database\Eloquent\Model
-     * TODO make the polyline here
      */
-    public function makePoint()
-    {
-        $affected = DB::update('UPDATE trashes SET geom = ST_SetSRID(ST_MakePoint(?, ?), 4326) WHERE id = ?', [$this->lat, $this->lng, $this->id]);
+    public function makeLine()
+    { 
+        $findstr = array(", ","[","]")
+        $replstr = array(" ","","")
+        $geomlatlngs = str_replace($findstr, latlngs, $replstr)
+                    
+        $affected = DB::update('UPDATE trashes SET geom = ST_SetSRID(ST_MakeLine(ST_GeomFromText("LINESTRING(?)))), 4326) WHERE id = ?', [$this->$geomlatlngs,, $this->id]);
         return $affected;
     }
 

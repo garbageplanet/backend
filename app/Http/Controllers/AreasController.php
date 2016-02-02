@@ -76,7 +76,7 @@ class AreasController extends Controller
         foreach ($areas as $area) {
             $area_ids[] = $area->id;
         }
-        $areas = area::whereIn('id', $area_ids)->get();
+        $areas = Area::whereIn('id', $area_ids)->get();
 
         $areasArray= [];
         foreach ($areas as $area) {
@@ -105,11 +105,10 @@ class AreasController extends Controller
             Auth::attempt(['email' => $glome, 'password' => '12345678']);
         }
         $area = Auth::user()->markedareas()->create($data);
-        $area->makePoint(); // FIXME array of points
+        $area->makeArea(); // FIXME array of points
         $area->addTypes($request->types);
         //long route to do this
         $array = $area->toArray();
-        $array['types'] = $area->types->pluck('type')->toArray(); // FIXME we need type to be reserved to the type of area, not the type of trash
 
         $area = collect($array);
 
@@ -144,7 +143,6 @@ class AreasController extends Controller
         //currently anyone authenticated user can update anything
         //find id
         $area = Area::findOrFail($id);
-
         //update request
         $area->update($request->all());
         //delete types
@@ -153,7 +151,6 @@ class AreasController extends Controller
         $area->addTypes($request->types);
 
         $array = $area->toArray();
-        $array['types'] = $area->types->pluck('type')->toArray();
 
         $area = collect($array);
         return $area;

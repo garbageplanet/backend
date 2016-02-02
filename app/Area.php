@@ -44,6 +44,16 @@ class Area extends Model
         return $trashes;
     }
     
+    public function makeArea()
+    { 
+        $findstr = array(", ","[","]")
+        $replstr = array(" ","","")
+        $geomlatlngs = str_replace($findstr, latlngs, $replstr)
+        
+        $affected = DB::update('UPDATE trashes SET geom = ST_SetSRID(ST_MakePolygon(ST_GeomFromText("LINESTRING(?))), 4326) WHERE id = ?', [$this->$geomlatlngs, $this->id]);
+        return $affected;
+    }
+    
     public function tags()
     {
         return $this->hasMany('App\Tag', 'trash_id');

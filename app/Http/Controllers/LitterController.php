@@ -76,7 +76,7 @@ class LittersController extends Controller
         foreach ($litters as $litter) {
             $litter_ids[] = $litter->id;
         }
-        $litters = litter::whereIn('id', $litter_ids)->get();
+        $litters = Litter::whereIn('id', $litter_ids)->get();
 
         $littersArray= [];
         foreach ($litters as $litter) {
@@ -105,7 +105,7 @@ class LittersController extends Controller
             Auth::attempt(['email' => $glome, 'password' => '12345678']);
         }
         $litter = Auth::user()->markedlitters()->create($data);
-        $litter->makePoint(); // FIXME array of points
+        $litter->makeLine(); // FIXME array of points
         $litter->addTypes($request->types);
         //long route to do this
         $array = $litter->toArray();
