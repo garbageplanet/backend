@@ -14,7 +14,6 @@ Repository for the garbagepla.net api (made with Laravel 5.1). You can visit the
 #### Licence
 This code is available under the MIT licence, see [the license file](https://github.com/garbageplanet/api/blob/dev/license.md) for more details.
 
-
 ### Current unctionalities
 
 api access is at http://dev.garbagepla.net/api
