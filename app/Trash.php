@@ -13,7 +13,6 @@ class Trash extends Model
      * @var array
      
      TODO get lat lng as a single field
-     TODO make a 'cleaned' - when a marker is marked as cleaned - Model 
       
      */
     protected $fillable = [
@@ -26,6 +25,7 @@ class Trash extends Model
         'todo',
         'cleaned',
         'image_url',
+        'featuretype',
         'geom'
     ];
 

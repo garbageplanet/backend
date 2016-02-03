@@ -104,12 +104,12 @@ class LittersController extends Controller
             $user = User::create(['email' => $glome, 'password' => '12345678', 'name' => $glome]);
             Auth::attempt(['email' => $glome, 'password' => '12345678']);
         }
-        $litter = Auth::user()->markedlitters()->create($data);
+        $litter = Auth::user()->markedLitters()->create($data);
         $litter->makeLine(); // FIXME array of points
         $litter->addTypes($request->types);
         //long route to do this
         $array = $litter->toArray();
-        $array['types'] = $litter->types->pluck('type')->toArray(); // FIXME we need type to be reserved to the type of litter, not the type of trash
+        $array['types'] = $litter->types->pluck('type')->toArray();
 
         $litter = collect($array);
 

@@ -20,7 +20,8 @@ class Meeting extends Model
         'name',
         'note',
         'organizer',
-        'begins_at'
+        'begins_at',
+        'featuretype',
     ];
 
     /**
@@ -34,6 +35,12 @@ class Meeting extends Model
      * Relationships begins
      */
 
+    public function makePoint()
+    {
+        $affected = DB::update('UPDATE cleanings SET geom = ST_SetSRID(ST_MakePoint(?, ?), 4326) WHERE id = ?', [$this->lat, $this->lng, $this->id]);
+        return $affected;
+    }
+  
     public function creator()
     {
         return $this->belongsTo('App\User', 'created_by');
@@ -43,7 +50,7 @@ class Meeting extends Model
     {
         return $this->belongsTo('App\User', 'modified_by');
     }
-
+  
     public function tags()
     {
         return $this->belongsToMany('App\Tag');
