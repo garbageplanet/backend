@@ -33,7 +33,7 @@ class Tag extends Model
 
     public function meeting()
     {
-        return $this->belongsToMany('App\Meeting');
+        return $this->belongsToMany('App\Cleaning');
     }
     
         public function litter()

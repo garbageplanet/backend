@@ -51,12 +51,12 @@ class User extends Model implements AuthenticatableContract,
         return $this->hasMany('App\Clean', 'user_id');
     }
 
-    public function createdMeetings()
+    public function createdCleanings()
     {
         return $this->hasMany('App\Clean', 'created_by');
     }
 
-    public function modifiedMeetings()
+    public function modifiedCleanings()
     {
         return $this->hasMany('App\Clean', 'modified_by');
     }
@@ -64,6 +64,11 @@ class User extends Model implements AuthenticatableContract,
     public function participations()
     {
         return $this->hasMany('App\Clean', 'user_id');
+    }
+                                      
+    public function joinedCleaning()
+    {
+        return $this->hasMany('App\Cleaning', 'user_id');
     }
 
     public function monitoringTiles()

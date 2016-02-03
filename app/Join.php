@@ -4,15 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Clean extends Model
+class Confirm extends Model
 {
     /**
-    NB: A 'Clean' is the event of cleaning garbage, not an actual cleaning event where people gather to clean garbage. A cleaning/gathering event is referred to as a 'Cleaning'.
-     */
+    NB: A 'Join' is the event of confirming a user comes to a cleaning event.
+    * TODO make this as a count function oeach time a user joins
+    * TODO allow user to remove their joining confirmation
+    */
     protected $fillable = [
-        'trash_id',
+        'cleaning_id',
         'user_id',
-        'litter_id'
     ];
 
     /**
@@ -30,15 +31,10 @@ class Clean extends Model
     {
         return $this->belongsTo('App\User', 'user_id');
     }
-
-    public function trash()
-    {
-        return $this->belongsTo('App\Trash', 'trash_id');
-    }
     
-    public function litter()
+    public function cleaning()
     {
-        return $this->belongsTo('App\Litter', 'litter_id');
+        return $this->belongsTo('App\Cleaning', 'cleaning_id');
     }
 
     /********************

@@ -51,7 +51,7 @@ class Litter extends Model
         return $this->hasMany('App\Tag', 'litter_id');
     }
     
-        public function confirms()
+    public function confirms()
     {
         return $this->hasMany('App\Confirm', 'litter_id');
     }

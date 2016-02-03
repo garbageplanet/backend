@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Meeting extends Model
+class Cleaning extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -22,6 +22,7 @@ class Meeting extends Model
         'organizer',
         'begins_at',
         'featuretype',
+        'tag'
     ];
 
     /**
@@ -53,7 +54,7 @@ class Meeting extends Model
   
     public function tags()
     {
-        return $this->belongsToMany('App\Tag');
+        return $this->hasMany('App\Tag');
     }
 
     public function users()
