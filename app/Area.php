@@ -8,6 +8,7 @@ use DB;
 class Area extends Model
 {
     protected $fillable = [
+        'created_by',
         'name',
         'players',
         'contact',
@@ -59,4 +60,8 @@ class Area extends Model
         return $this->hasMany('App\Tag', 'trash_id');
     }
 
+    public function creator()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
 }

@@ -20,8 +20,6 @@ class Trash extends Model
         'lat',
         'lng',
         'amount',
-        'size',
-        'embed',
         'todo',
         'cleaned',
         'image_url',
