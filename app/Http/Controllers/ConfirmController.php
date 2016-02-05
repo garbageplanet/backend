@@ -13,17 +13,16 @@ use DB;
 use Carbon\Carbon;
 use Auth;
 
-class JoinController extends Controller
+class ConfirmController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('jwt.auth', ['only' => ['store', 'update', 'destroy']]);
+        $this->middleware('jwt.auth', ['only' => ['store', 'update']]);
     }
 
     public function add()
     {
-      // NOTE This controller is for counting the users who join a cleaning event
-      // TODO add an integer to the 'joined' field on cleaning_id
+      // TODO increments counts on user input to confirm litter and trash
     }
 
 }

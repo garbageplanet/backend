@@ -13,6 +13,7 @@ class Confirm extends Model
     protected $fillable = [
         'trash_id',
         'user_id',
+        'litter_id'
     ];
 
     /**
