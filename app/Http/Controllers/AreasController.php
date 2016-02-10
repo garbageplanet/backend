@@ -42,7 +42,7 @@ class AreasController extends Controller
 
         $areas = collect($areasArray);
         return $areas;
-        //return response()->json($areasArray, 200)->header('Access-Control-Allow-Origin', '*');
+        // return response()->json($areasArray, 200)->header('Access-Control-Allow-Origin', '*');
 
     }
 
@@ -105,7 +105,7 @@ class AreasController extends Controller
             Auth::attempt(['email' => $glome, 'password' => '12345678']);
         }
         $area = Auth::user()->markedareas()->create($data);
-        $area->makeArea(); // FIXME array of points
+        $area->makeArea();
         $area->addTypes($request->types);
         //long route to do this
         $array = $area->toArray();

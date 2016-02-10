@@ -33,19 +33,18 @@ Route::group(['prefix' => 'api'], function() {
     Route::post('trashes', 'TrashesController@store');
     Route::put('trashes', 'TrashesController@update');
     Route::delete('trashes/{id}', 'TrashesController@destroy');
-    Route::post('userlesstrash', 'TrashesController@storeWithoutUser'); // this needs to be removed
 
-    // Litter (polylines)
-    Route::get('litters', 'LittersController@listByUser');
+    // Litters (polylines)
+    Route::get('litters', 'LittersController@index');
     Route::get('litters/withinbounds', 'LittersController@withinBounds');
-    Route::get('Shapes/{id}', 'LittersController@show');
+    Route::get('litters/{id}', 'LittersController@show');
     
     Route::post('litters', 'LittersController@store');
     Route::put('litters', 'LittersController@update');
     Route::delete('litters/{id}', 'LittersController@destroy');
     
     // Areas (polygons)
-    Route::get('areas', 'AreasController@listByUser');
+    Route::get('areas', 'AreasController@index');
     Route::get('areasareas/withinbounds', 'AreasController@withinBounds');
     Route::get('areasareas/{id}', 'AreasController@show');
     
@@ -54,18 +53,18 @@ Route::group(['prefix' => 'api'], function() {
     Route::delete('areas/{id}', 'AreasController@destroy');
     
     // Features inside an area
-    Route::get('shapes/{id}', 'ShapesController@trashesInArea');
-    Route::get('shapes/{id}', 'ShapesController@littersInArea');
-    Route::get('shapes/{id}', 'ShapesController@cleaningsInArea');
+    Route::get('areas/{id}', 'ShapesController@trashesInArea');
+    Route::get('areas/{id}', 'ShapesController@littersInArea');
+    Route::get('areas/{id}', 'ShapesController@cleaningsInArea');
     
-    // Cleanings
-    Route::get('cleaning', 'CleaningController@index');
-    Route::get('cleaning/withinbounds', 'CleaningController@withinBounds');
-    Route::get('cleaning/{id}', 'CleaningController@show');
+    // Cleanings aka meetings
+    Route::get('cleanings', 'CleaningsController@index');
+    Route::get('cleanings/withinbounds', 'CleaningsController@withinBounds');
+    Route::get('cleanings/{id}', 'CleaningsController@show');
 
-    Route::post('cleaning', 'CleaningController@store');
-    Route::put('cleaning', 'CleaningController@update');
-    Route::delete('cleaning/{id}', 'CleaningController@destroy');
+    Route::post('cleanings', 'CleaningsController@store');
+    Route::put('cleanings', 'CleaningsController@update');
+    Route::delete('cleanings/{id}', 'CleaningsController@destroy');
 
 });
 Route::get('/welcome', function () {

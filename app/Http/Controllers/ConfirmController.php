@@ -25,4 +25,33 @@ class ConfirmController extends Controller
       // TODO increments counts on user input to confirm litter and trash
     }
 
+
+
+ public function confirmTrash(Request $request, $id, $featuretype)
+ {
+   
+      $trash = Trash::findOrFail($id);
+
+      $trash->confirm += 1;
+
+      $trash->save();
+
+      return $trash;  
+
+ }
+
+ public function confirmLitter(Request $request, $id, $featuretype)
+ {
+
+      $litter = Litter::findOrFail($id);
+
+      $litter->confirm += 1;
+
+      $litter->save();
+
+      return $litter;  
+
+  }
+
+  
 }

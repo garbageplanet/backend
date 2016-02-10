@@ -42,7 +42,7 @@ class TrashesController extends Controller
 
         $trashes = collect($trashesArray);
         return $trashes;
-        //return response()->json($trashesArray, 200)->header('Access-Control-Allow-Origin', '*');
+        // return response()->json($trashesArray, 200)->header('Access-Control-Allow-Origin', '*');
 
     }
 
@@ -95,6 +95,7 @@ class TrashesController extends Controller
      * @param  Request  $request
      * @return Response
      */
+  
     public function store(Request $request)
     {
         $data = $request->all(); //can be changed to request->only('first', 'second');
@@ -117,37 +118,6 @@ class TrashesController extends Controller
         $trash = collect($array);
 
         return $trash;
-    }
-
-    public function storeWithoutUser(Request $request)
-    {
-        //manually parse token because its optional
-        if ($request->header('Authorization')) {
-            $user = JWTAuth::parseToken()->authenticate();
-        }
-        else {
-            $user = User::first();
-        }
-
-        $data = $request->all();
-        $data['marked_by'] = $user->id;
-        if (!isset($data['amount']) ){
-            $data['amount'] = 0;
-        }
-
-
-        $trash = Trash::create($data);
-        $trash->makePoint();
-        //types
-        if (isset($data['types'])) {
-            $trash->addTypes($data['types']);
-        }
-        if ($trash->amount > 3) {
-            $trash->notifyHelsinkiAboutTheTrash();
-        }
-
-        return $trash;
-
     }
 
     /**

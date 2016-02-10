@@ -17,7 +17,7 @@ class JoinController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('jwt.auth', ['only' => ['store', 'update', 'destroy']]);
+        $this->middleware('jwt.auth', ['only' => ['store', 'update']]);
     }
 
     public function add()

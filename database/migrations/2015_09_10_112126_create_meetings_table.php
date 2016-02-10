@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMeetingsTable extends Migration
+class CreateCleaningsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateMeetingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('meetings', function (Blueprint $table) {
+        Schema::create('cleaning', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')->on('users');
@@ -36,6 +36,6 @@ class CreateMeetingsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('meetings');
+        Schema::drop('cleaning');
     }
 }

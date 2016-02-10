@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Trash;
+use App\Litter;
 use App\User;
 use JWTAuth;
 use DB;
 use Carbon\Carbon;
 use Auth;
 
-class CleaningController extends Controller
+class LittersController extends Controller
 {
     public function __construct()
     {
@@ -29,19 +29,20 @@ class CleaningController extends Controller
      */
     public function index()
     {
-        $cleanings = Cleaning::all();
+        $litters = Litter::all();
 
         //long route to do this
-        //dd($trashes);
-        $cleaningsArray= [];
-        foreach ($cleanings as $cleaning) {
-            $array = $cleaning->toArray();
-            $cleaningsArray[] = $array;
+        //dd($litters);
+        $littersArray= [];
+        foreach ($litters as $litter) {
+            $array = $litter->toArray();
+            $array['types'] = $litter->types->pluck('type')->toArray();
+            $littersArray[] = $array;
         }
 
-        $cleanings = collect($cleaningsArray);
-        return $cleanings;
-        //return response()->json($trashesArray, 200)->header('Access-Control-Allow-Origin', '*');
+        $litters = collect($littersArray);
+        return $litters;
+        // return response()->json($littersArray, 200)->header('Access-Control-Allow-Origin', '*');
 
     }
 
@@ -62,29 +63,30 @@ class CleaningController extends Controller
         $ne_lat = $coordinates[0];
         $ne_lng = $coordinates[1];
 
-        $cleanings = DB::select('
+        $litters = DB::select('
             SELECT *
-            FROM cleanings
+            FROM litters
 
-            WHERE cleanings.geom && ST_MakeEnvelope(?, ?, ?, ?)'
+            WHERE litters.geom && ST_MakeEnvelope(?, ?, ?, ?)'
             ,
             [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
 
-        //get id's of the trashes
-        $trash_ids = [];
-        foreach ($cleanings as $cleaning) {
-            $cleaning_ids[] = $cleaning->id;
+        //get id's of the litters
+        $litter_ids = [];
+        foreach ($litters as $litter) {
+            $litter_ids[] = $litter->id;
         }
-        $cleanings = Cleaning::whereIn('id', $cleaning_ids)->get();
+        $litters = Litter::whereIn('id', $litter_ids)->get();
 
-        $cleaningsArray= [];
-        foreach ($cleanings as $cleaning) {
-            $array = $cleaning->toArray();
-            $cleaningsArray[] = $array;
+        $littersArray= [];
+        foreach ($litters as $litter) {
+            $array = $litter->toArray();
+            $array['types'] = $litter->types->pluck('type')->toArray();
+            $littersArray[] = $array;
         }
 
-        $cleanings = collect($cleaningsArray);
-        return $cleanings;
+        $litters = collect($littersArray);
+        return $litters;
     }
 
     /**
@@ -102,15 +104,16 @@ class CleaningController extends Controller
             $user = User::create(['email' => $glome, 'password' => '12345678', 'name' => $glome]);
             Auth::attempt(['email' => $glome, 'password' => '12345678']);
         }
-        $cleaning = Auth::user()->markedCleanings()->create($data);
-        $cleaning->makePoint();
-        $cleaning->addDate($request->date);
+        $litter = Auth::user()->markedLitters()->create($data);
+        $litter->makeLine();
+        $litter->addTypes($request->types);
         //long route to do this
-        $array = $cleaning->toArray();
+        $array = $litter->toArray();
+        $array['types'] = $litter->types->pluck('type')->toArray();
 
-        $cleaning = collect($array);
+        $litter = collect($array);
 
-        return $trash;
+        return $litter;
     }
 
     /**
@@ -121,11 +124,12 @@ class CleaningController extends Controller
      */
     public function show($id)
     {
-        $cleaning = Cleaning::findOrFail($id);
+        $litter = Litter::findOrFail($id);
         //long route to do this
-        $array = $cleaning->toArray();
-        $cleaning = collect($array);
-        return $cleaning;
+        $array = $litter->toArray();
+        $array['types'] = $litter->types->pluck('type')->toArray();
+        $litter = collect($array);
+        return $litter;
     }
 
     /**
@@ -139,15 +143,20 @@ class CleaningController extends Controller
     {
         //currently anyone authenticated user can update anything
         //find id
-        $cleaning = Cleaning::findOrFail($id);
+        $litter = Litter::findOrFail($id);
 
         //update request
-        $cleaning->update($request->all());
+        $litter->update($request->all());
+        //delete types
+        $litter->types()->delete();
+        //add new types
+        $litter->addTypes($request->types);
 
-        $array = $cleaning->toArray();
+        $array = $litter->toArray();
+        $array['types'] = $litter->types->pluck('type')->toArray();
 
-        $cleaning = collect($array);
-        return $cleaning;
+        $litter = collect($array);
+        return $litter;
     }
 
     /**
@@ -159,9 +168,10 @@ class CleaningController extends Controller
     public function destroy($id)
     {
         //find id
-        $cleaning = Cleaning::findOrFail($id);
+        $litter = Litter::findOrFail($id);
         //delete
-        $cleanings->delete();
+        $litter->types()->delete();
+        $litter->delete();
         //delete types
 
         return response()->json("{}", 200);

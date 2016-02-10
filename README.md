@@ -6,10 +6,13 @@ Repository for the garbagepla.net api (made with Laravel 5.1). You can visit the
 
 ### TODO
 
-### Models
-
+### Models & controllers
+- [ ] make migrations for new routes / db tables
+- [ ] only creator can edit / delete own data
+- [ ] GET / POST lat lngs as single field (lat.lat,lng.lng) or in brackets
 - [ ] add regex checks for fields in all controllers.
-- [ ] make join and confirm controllers
+- [ ] make 'Join' and 'Confirm' controllers
+- [ ] set CORS so that the api is accessible only from garbagepla.net for now
 
 #### Licence
 This code is available under the MIT licence, see [the license file](https://github.com/garbageplanet/api/blob/dev/license.md) for more details.
