@@ -14,16 +14,17 @@ use DB;
 use Carbon\Carbon;
 use Auth;
 
-class Confirm extends Model
+class Player extends Model
 {
     /**
     NB: A 'Confirm' is the event of confirming there is garbage at a location.
     * TODO make this as a count function on each confirm
      */
     protected $fillable = [
-        'trash_id',
+        'area_id',
         'user_id',
-        'litter_id'
+        'glome_id',
+        'curr_players'
     ];
 
     /**
@@ -41,16 +42,13 @@ class Confirm extends Model
     {
         return $this->belongsTo('App\User', 'user_id');
     }
-
-    public function trash()
-    {
-        return $this->belongsTo('App\Trash', 'trash_id');
-    }
     
-    public function litter()
+    public function area()
     {
-        return $this->belongsTo('App\Trash', 'litter_id');
+        return $this->belongsTo('App\Area', 'area_id');
     }
+
+
 
     /********************
      * Relationships ends

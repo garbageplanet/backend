@@ -10,7 +10,7 @@ class Area extends Model
     protected $fillable = [
         'created_by',
         'name',
-        'players',
+        'max_players',
         'contact',
         'note',
         'latlngs'
@@ -63,5 +63,10 @@ class Area extends Model
     public function creator()
     {
         return $this->belongsTo('App\User', 'created_by');
+    }
+  
+    public function player()
+    {
+        return $this->hasMany('App\Player', 'curr_player');
     }
 }
