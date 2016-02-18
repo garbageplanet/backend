@@ -35,7 +35,7 @@ Route::group(['prefix' => 'api'], function() {
     Route::delete('trashes/{id}', 'TrashesController@destroy');
 
     // Litters (polylines)
-    Route::get('litters', 'LittersController@index');
+
     Route::get('litters/withinbounds', 'LittersController@withinBounds');
     Route::get('litters/{id}', 'LittersController@show');
     

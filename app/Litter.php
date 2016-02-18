@@ -27,6 +27,7 @@ class Litter extends Model
         'geojson_data',
         'wms_urls',
         'featuretype',
+        'length',
         'geom'
     ];
 

@@ -24,9 +24,12 @@ class Trash extends Model
         'cleaned',
         'image_url',
         'featuretype',
+        'size',
+        'embed',
+        'note'
         'geom'
     ];
-
+  
     /**
      * The attributes excluded from the model's JSON form.
      *
