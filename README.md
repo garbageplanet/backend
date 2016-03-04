@@ -1,7 +1,6 @@
 # README #
 
 ### What is this repository for? ###
-
 Repository for the garbagepla.net api (made with Laravel 5.1). You can visit the front end [here](http://www.garbagepla.net).
 
 ### TODO
@@ -12,11 +11,11 @@ Repository for the garbagepla.net api (made with Laravel 5.1). You can visit the
 - [ ] make `Confirm` controller and model for confirming presence of garbage
 - [ ] make `Game` controller and model to restrict user action in an area
 - [ ] make `Access` controller and model for user to join games
-- [ ] add new public function to the `User.php` model and edit the current ones to match the new routes/models
+- [ ] add new public functions to the `User.php` model and edit the current ones to match the new routes/models
 - [ ] make db migrations for new routes/models
 - [ ] only creator can edit / delete own data
 - [ ] GET / POST lat lngs as single field (lat.lat,lng.lng) or in brackets
-- [ ] add regex checks for fields in all controllers.
+- [ ] add regex checks for fields in all controllers
 
 ### Network
 - [ ] set CORS so that the api is accessible only from garbagepla.net for now

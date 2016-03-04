@@ -21,12 +21,11 @@ class Trash extends Model
         'lng',
         'amount',
         'todo',
-        'cleaned',
         'image_url',
         'featuretype',
         'size',
         'embed',
-        'note'
+        'note',
         'geom'
     ];
   
