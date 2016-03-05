@@ -31,7 +31,7 @@ class Cleaning extends Model
         'note',
         'organizer',
         'begins_at',
-        'featuretype',
+        'feature_type',
         'tag'
     ];
 

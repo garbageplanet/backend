@@ -9,11 +9,13 @@ class Area extends Model
 {
     protected $fillable = [
         'created_by',
-        'name',
+        'title',
         'max_players',
         'contact',
         'note',
-        'latlngs'
+        'latlngs',
+        'feature_type',
+        'geom'
     ];
     
     protected $hidden = ['secret'];

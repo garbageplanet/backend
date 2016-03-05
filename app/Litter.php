@@ -24,10 +24,8 @@ class Litter extends Model
         'cleaned',
         'image_url',
         'note',
-        'geojson_data',
-        'wms_urls',
-        'featuretype',
-        'length',
+        'feature_type',
+        'physical_length',
         'geom'
     ];
 

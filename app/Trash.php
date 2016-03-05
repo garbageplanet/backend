@@ -22,7 +22,7 @@ class Trash extends Model
         'amount',
         'todo',
         'image_url',
-        'featuretype',
+        'feature_type',
         'size',
         'embed',
         'note',
