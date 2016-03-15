@@ -76,11 +76,11 @@ class Litter extends Model
      */
     public function makeLine()
     { 
-        $findstr = array(", ","[","]")
-        $replstr = array(" ","","")
-        $geomlatlngs = str_replace($findstr, latlngs, $replstr)
+        $findstr = array(", ","[","]");
+        $replstr = array(" ","","");
+        $geomlatlngs = str_replace($findstr, latlngs, $replstr);
                     
-        $affected = DB::update('UPDATE trashes SET geom = ST_SetSRID(ST_MakeLine(ST_GeomFromText("LINESTRING(?)))), 4326) WHERE id = ?', [$this->$geomlatlngs,, $this->id]);
+        $affected = DB::update('UPDATE trashes SET geom = ST_SetSRID(ST_MakeLine(ST_GeomFromText("LINESTRING(?)))), 4326) WHERE id = ?', [$geomlatlngs, $this->id]);
         return $affected;
     }
 
