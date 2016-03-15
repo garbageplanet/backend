@@ -5,7 +5,7 @@ Repository for the garbagepla.net api (made with Laravel 5.1). You can visit the
 
 ### TODO
 
-### Models & controllers
+#### Models & controllers
 - [ ] make route for remove user account
 - [ ] make `Join` controller and model for joining cleaning events
 - [ ] make `Confirm` controller and model for confirming presence of garbage
@@ -17,14 +17,13 @@ Repository for the garbagepla.net api (made with Laravel 5.1). You can visit the
 - [ ] GET / POST lat lngs as single field (lat.lat,lng.lng) or in brackets
 - [ ] add regex checks for fields in all controllers
 
-### Network
+#### Network
 - [ ] set CORS so that the api is accessible only from garbagepla.net for now
 
-#### Licence
+### Licence
 This code is available under the MIT licence, see [the license file](https://github.com/garbageplanet/api/blob/dev/license.md) for more details.
 
-### Current unctionalities
-
+### Current functionalities
 api access is at http://dev.garbagepla.net/api
 
 - create trash POST: /api/trashes
