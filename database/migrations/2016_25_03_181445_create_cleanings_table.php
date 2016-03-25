@@ -12,7 +12,7 @@ class CreateCleaningsTable extends Migration
      */
     public function up()
     {
-        Schema::create('cleaning', function (Blueprint $table) {
+        Schema::create('cleanings', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')->on('users');
@@ -20,11 +20,10 @@ class CreateCleaningsTable extends Migration
             $table->string('lat');
             $table->string('lng');
             $table->string('place');
-            $table->string('name');
-            $table->string('description');
+            $table->string('feature_type');
+            $table->string('note');
             $table->string('organizer');
-            $table->dateTime('begins_at');
-            $table->dateTime('ends_at');
+            $table->dateTime('datetime');
             $table->timestamps();
         });
     }
@@ -36,6 +35,6 @@ class CreateCleaningsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('cleaning');
+        Schema::drop('cleanings');
     }
 }

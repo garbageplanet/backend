@@ -17,11 +17,10 @@ class Cleaning extends Model
         'modified_by',
         'lat',
         'lng',
-        'place',
         'name',
         'note',
         'organizer',
-        'begins_at',
+        'datetime',
         'feature_type',
         'tag'
     ];

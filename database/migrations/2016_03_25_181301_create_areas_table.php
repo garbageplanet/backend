@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMonitoringTilesTable extends Migration
+class CreateAreasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,17 +12,15 @@ class CreateMonitoringTilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('monitoring_tiles', function (Blueprint $table) {
+        Schema::create('areas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('title');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('sw_lat');
-            $table->string('sw_lng');
-            $table->string('ne_lat');
-            $table->string('ne_lng');
+            $table->string('latlngs');
             $table->timestamps();
         });
+        DB::statement('ALTER TABLE areas ADD geom geometry(LINESTRING,4326)' );
     }
 
     /**
@@ -32,6 +30,6 @@ class CreateMonitoringTilesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('monitoring_tiles');
+        Schema::drop('areas');
     }
 }

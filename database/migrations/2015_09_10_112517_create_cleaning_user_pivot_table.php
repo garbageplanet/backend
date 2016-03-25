@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMeetingUserPivotTable extends Migration
+class CreateCleaningUserPivotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,9 @@ class CreateMeetingUserPivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('meeting_user', function(Blueprint $table) {
-            $table->integer('meeting_id')->unsigned()->index();
-            $table->foreign('meeting_id')->references('id')->on('meetings')->onDelete('cascade');
+        Schema::create('cleaning_user', function(Blueprint $table) {
+            $table->integer('cleaning_id')->unsigned()->index();
+            $table->foreign('cleaning_id')->references('id')->on('cleanings')->onDelete('cascade');
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
@@ -28,6 +28,6 @@ class CreateMeetingUserPivotTable extends Migration
      */
     public function down()
     {
-        Schema::drop('meeting_user');
+        Schema::drop('cleaning_user');
     }
 }
