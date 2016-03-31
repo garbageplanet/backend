@@ -17,7 +17,7 @@ class ConfirmController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('jwt.auth', ['only' => ['store', 'update']]);
+        $this->middleware('jwt.auth', ['only' => ['store']]);
     }
 
     public function add()

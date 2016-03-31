@@ -31,16 +31,16 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('trashes/{id}', 'TrashesController@show');
 
     Route::post('trashes', 'TrashesController@store');
-    Route::put('trashes', 'TrashesController@update');
+    Route::put('trashes/{id}', 'TrashesController@update');
     Route::delete('trashes/{id}', 'TrashesController@destroy');
 
     // Litters (polylines)
-
+    Route::get('litters', 'LittersController@index');
     Route::get('litters/withinbounds', 'LittersController@withinBounds');
     Route::get('litters/{id}', 'LittersController@show');
     
     Route::post('litters', 'LittersController@store');
-    Route::put('litters', 'LittersController@update');
+    Route::put('litters/{id}', 'LittersController@update');
     Route::delete('litters/{id}', 'LittersController@destroy');
     
     // Areas (polygons)
@@ -49,7 +49,7 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('areasareas/{id}', 'AreasController@show');
     
     Route::post('areas', 'AreasController@store');
-    Route::put('areas', 'AreasController@update');
+    Route::put('areas/{id}', 'AreasController@update');
     Route::delete('areas/{id}', 'AreasController@destroy');
     
     // Features inside an area
@@ -63,7 +63,7 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('cleanings/{id}', 'CleaningsController@show');
 
     Route::post('cleanings', 'CleaningsController@store');
-    Route::put('cleanings', 'CleaningsController@update');
+    Route::put('cleanings/{id}', 'CleaningsController@update');
     Route::delete('cleanings/{id}', 'CleaningsController@destroy');
 
 });

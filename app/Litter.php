@@ -7,15 +7,6 @@ use DB;
 
 class Litter extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     
-     TODO get lat lng as a single field
-     TODO make a 'cleaned' - when a marker is marked as cleaned - Model 
-      
-     */
     protected $fillable = [
         'marked_by',
         'latlngs',
@@ -80,7 +71,7 @@ class Litter extends Model
         $replstr = array(" ","","");
         $geomlatlngs = str_replace($findstr, latlngs, $replstr);
                     
-        $affected = DB::update('UPDATE trashes SET geom = ST_SetSRID(ST_MakeLine(ST_GeomFromText("LINESTRING(?)))), 4326) WHERE id = ?', [$geomlatlngs, $this->id]);
+        $affected = DB::update('UPDATE trashes SET geom = ST_SetSRID(ST_MakeLine(ST_GeomFromText("LINESTRING(?)))), 4326) WHERE id = ?', [$this->$geomlatlngs, $this->id]);
         return $affected;
     }
 

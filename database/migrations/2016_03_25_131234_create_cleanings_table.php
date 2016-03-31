@@ -21,11 +21,12 @@ class CreateCleaningsTable extends Migration
             $table->string('lng');
             $table->string('place');
             $table->string('feature_type');
-            $table->string('note');
+            $table->mediumText('note');
             $table->string('organizer');
             $table->dateTime('datetime');
             $table->timestamps();
         });
+        DB::statement('ALTER TABLE cleanings ADD geom geometry(POINT,4326)' );
     }
 
     /**

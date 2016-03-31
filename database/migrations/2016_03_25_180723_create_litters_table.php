@@ -18,7 +18,7 @@ class CreateLittersTable extends Migration
             $table->foreign('marked_by')->references('id')->on('users');
             $table->string('latlngs');
             $table->integer('amount');
-            $table->integer('note');
+            $table->mediumText('note');
             $table->integer('feature_type');
             $table->timestamps();
         });

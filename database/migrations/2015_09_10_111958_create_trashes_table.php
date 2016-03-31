@@ -19,9 +19,9 @@ class CreateTrashesTable extends Migration
             $table->string('lat');
             $table->string('lng');
             $table->integer('amount');
-            $table->integer('note');
-            $table->integer('feature_type');
-            $table->integer('todo');
+            $table->mediumText('note');
+            $table->string('feature_type');
+            $table->string('todo');
             $table->timestamps();
         });
         DB::statement('ALTER TABLE trashes ADD geom geometry(POINT,4326)' );
