@@ -14,7 +14,6 @@ class Cleaning extends Model
      */
     protected $fillable = [
         'created_by',
-        'modified_by',
         'lat',
         'lng',
         'name',

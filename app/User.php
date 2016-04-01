@@ -66,7 +66,7 @@ class User extends Model implements AuthenticatableContract,
         return $this->hasMany('App\Area', 'created_by');
     }
 
-    public function modifiedCleanings()
+/*    public function modifiedCleanings()
     {
         return $this->hasMany('App\Cleaning', 'modified_by');
     }
@@ -74,7 +74,7 @@ class User extends Model implements AuthenticatableContract,
     public function joinedCleaning()
     {
         return $this->hasMany('App\Cleaning', 'user_id');
-    }
+    }*/
 
 
     /********************

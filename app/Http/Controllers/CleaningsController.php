@@ -70,7 +70,7 @@ class CleaningsController extends Controller
             ,
             [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
 
-        //get id's of the trashes
+        //get id's of the cleanings
         $cleaning_ids = [];
         foreach ($cleanings as $cleaning) {
             $cleaning_ids[] = $cleaning->id;
@@ -102,7 +102,7 @@ class CleaningsController extends Controller
             $user = User::create(['email' => $glome, 'password' => '12345678', 'name' => $glome]);
             Auth::attempt(['email' => $glome, 'password' => '12345678']);
         }
-        $cleaning = Auth::user()->markedCleanings()->create($data);
+        $cleaning = Auth::user()->createdCleanings()->create($data);
         $cleaning->makePoint();
         $cleaning->addDate($request->date);
         //long route to do this
