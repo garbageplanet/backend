@@ -24,8 +24,23 @@ class Area extends Model
     {
         return $this->belongsTo('App\User');
     }
+    
+    public function tags()
+    {
+        return $this->hasMany('App\Tag', 'trash_id');
+    }
 
-    public function trashesInsideArea()
+    public function creator()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
+  
+    public function player()
+    {
+        return $this->hasMany('App\Player', 'curr_player');
+    }
+
+/*    public function trashesInsideArea()
     {
         // TODO make polygon selection here not rectangle bounds
         $trashes = DB::select('
@@ -45,7 +60,7 @@ class Area extends Model
         $trashes = Trash::whereIn('id', $trash_ids)->get();
 
         return $trashes;
-    }
+    }*/
     
     public function makeArea()
     { 
@@ -53,22 +68,8 @@ class Area extends Model
         $replstr = array(" ","","");
         $geomlatlngs = str_replace($findstr, latlngs, $replstr);
         
-        $affected = DB::update('UPDATE trashes SET geom = ST_SetSRID(ST_MakePolygon(ST_GeomFromText("LINESTRING(?))), 4326) WHERE id = ?', [$this->$geomlatlngs, $this->id]);
+        $affected = DB::update('UPDATE areas SET geom = ST_SetSRID(ST_MakePolygon(ST_GeomFromText(LINESTRING(?))), 4326) WHERE id = ?', [$this->$geomlatlngs, $this->id]);
         return $affected;
     }
-    
-    public function tags()
-    {
-        return $this->hasMany('App\Tag', 'trash_id');
-    }
 
-    public function creator()
-    {
-        return $this->belongsTo('App\User', 'created_by');
-    }
-  
-    public function player()
-    {
-        return $this->hasMany('App\Player', 'curr_player');
-    }
 }

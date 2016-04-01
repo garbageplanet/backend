@@ -52,7 +52,8 @@ class LittersController extends Controller
      */
     public function withinBounds(Request $request)
     {
-        //TODO: Validate (regex validation to bounds)
+        // TODO Validate (regex validation to bounds)
+        // TODO at least one coordinate inside the bounds
         //
         // parse bounds
 
@@ -128,6 +129,20 @@ class LittersController extends Controller
         $array = $litter->toArray();
         $array['types'] = $litter->types->pluck('type')->toArray();
         $litter = collect($array);
+        return $litter;
+    }
+    
+    public function confirm(Request $request, $id)
+    {
+        //currently anyone authenticated user can update anything
+        //find id
+        $litter = Litter::findOrFail($id);
+
+        //update request
+        $litter->update($request->all());
+
+        $litter->confirm += 1;
+
         return $litter;
     }
 

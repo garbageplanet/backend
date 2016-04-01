@@ -13,6 +13,7 @@ return [
      */
     'supportsCredentials' => false,
     // 'allowedOrigins' => ['https://*.garbagepla.net/*'],
+    'allowedOrigins' => ['*'],
     'allowedHeaders' => ['*'],
     'allowedMethods' => ['GET', 'POST', 'PUT',  'DELETE', 'OPTIONS'],
     'exposedHeaders' => [],

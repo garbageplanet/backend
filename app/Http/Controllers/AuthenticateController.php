@@ -19,7 +19,7 @@ class AuthenticateController extends AuthController
         // Apply the jwt.auth middleware to all methods in this controller
         // except for the authenticate method. We don't want to prevent
         // the user from retrieving their token if they don't already have it
-        $this->middleware('jwt.auth', ['except' => ['authenticate', 'postRegister', 'loginUser']]);
+        $this->middleware('jwt.auth', ['except' => ['authenticate', 'postRegister', 'loginUser' /*, 'deleteUser'*/]]);
     }
     /**
      * Display a listing of the resource.
@@ -135,5 +135,32 @@ class AuthenticateController extends AuthController
 
         // if no errors are encountered we can return a JWT
         return $token;
+    }
+    
+    protected function deleteUser($credentials)
+    {
+        Log::debug('loginUser start with credentials: ' . implode('|', $credentials));
+
+        try {
+            // verify the credentials and create a token for the user
+            $token = JWTAuth::attempt($credentials);
+            if (! $token) {
+                return 401;
+            }
+        } catch (JWTException $e) {
+
+            return 500;
+        }
+        Log::debug('loginUser return token: ' . $token);
+
+        // if no errors are encountered we can remove account
+        // TODO does this remove other db links?
+        //find user by id
+        $user = User::findOrFail($id);
+        //delete
+        $user->delete();
+
+        return response()->json("{}", 200);
+
     }
 }

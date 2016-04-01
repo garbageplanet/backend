@@ -162,6 +162,20 @@ class TrashesController extends Controller
         $trash = collect($array);
         return $trash;
     }
+    
+    public function confirm(Request $request, $id)
+    {
+        //currently anyone authenticated user can update anything
+        //find id
+        $trash = Trash::findOrFail($id);
+
+        //update request
+        $trash->update($request->all());
+
+        $trash->confirm += 1;
+
+        return $trash;
+    }
 
     /**
      * Remove the specified resource from storage.

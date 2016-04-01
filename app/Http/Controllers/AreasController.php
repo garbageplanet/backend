@@ -35,7 +35,6 @@ class AreasController extends Controller
         $areasArray= [];
         foreach ($areas as $area) {
             $array = $area->toArray();
-            $array['types'] = $area->types->pluck('type')->toArray();
             $areasArray[] = $array;
         }
 
@@ -52,8 +51,8 @@ class AreasController extends Controller
      */
     public function withinBounds(Request $request)
     {
-        //TODO: Validate (regex validation to bounds)
-        //
+        // TODO Validate (regex validation to bounds)
+        // TODO at least one coordinate inside the bounds
         // parse bounds
 
         $coordinates = explode(", ", $request->bounds);
@@ -80,7 +79,6 @@ class AreasController extends Controller
         $areasArray= [];
         foreach ($areas as $area) {
             $array = $area->toArray();
-            $array['types'] = $area->types->pluck('type')->toArray();
             $areasArray[] = $array;
         }
 
@@ -103,9 +101,8 @@ class AreasController extends Controller
             $user = User::create(['email' => $glome, 'password' => '12345678', 'name' => $glome]);
             Auth::attempt(['email' => $glome, 'password' => '12345678']);
         }
-        $area = Auth::user()->markedareas()->create($data);
+        $area = Auth::user()->createdAreas()->create($data);
         $area->makeArea();
-        $area->addTypes($request->types);
         //long route to do this
         $array = $area->toArray();
 
@@ -125,7 +122,6 @@ class AreasController extends Controller
         $area = Area::findOrFail($id);
         //long route to do this
         $array = $area->toArray();
-        $array['types'] = $area->types->pluck('type')->toArray();
         $area = collect($array);
         return $area;
     }
@@ -144,10 +140,6 @@ class AreasController extends Controller
         $area = Area::findOrFail($id);
         //update request
         $area->update($request->all());
-        //delete types
-        $area->types()->delete();
-        //add new types
-        $area->addTypes($request->types);
 
         $array = $area->toArray();
 
@@ -166,9 +158,7 @@ class AreasController extends Controller
         //find id
         $area = Area::findOrFail($id);
         //delete
-        $area->types()->delete();
         $area->delete();
-        //delete types
 
         return response()->json("{}", 200);
 

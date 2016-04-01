@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'url' => 'http://dev.garbagepla.net:8443',
+    'url' => '/home/gplanet/garbageplanet/api_unstable_github',
 
     /*
     |--------------------------------------------------------------------------

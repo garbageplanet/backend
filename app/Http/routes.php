@@ -11,6 +11,8 @@
 |
 */
 
+// TODO shouldn't these routes be wrapped inside a middleware?
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,6 +22,7 @@ Route::group(['prefix' => 'api'], function() {
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::get('authenticate/user', 'AuthenticateController@getAuthenticatedUser');
     Route::post('register', 'AuthenticateController@postRegister');
+    Route::delete('authenticate/delete', 'AuthenticateController@deleteUser');
 
     //glome
     Route::post('glome/create', 'GlomeController@createSoftAccount');
@@ -43,19 +46,23 @@ Route::group(['prefix' => 'api'], function() {
     Route::put('litters/{id}', 'LittersController@update');
     Route::delete('litters/{id}', 'LittersController@destroy');
     
+    // Confirm litter or trash
+    Route::put('trashes/confirm/{id}', 'TrashesController@confirm');
+    Route::put('litters/confirm/{id}', 'LittersController@confirm');
+
     // Areas (polygons)
     Route::get('areas', 'AreasController@index');
-    Route::get('areasareas/withinbounds', 'AreasController@withinBounds');
-    Route::get('areasareas/{id}', 'AreasController@show');
+    Route::get('areas/withinbounds', 'AreasController@withinBounds');
+    Route::get('areas/{id}', 'AreasController@show');
     
     Route::post('areas', 'AreasController@store');
     Route::put('areas/{id}', 'AreasController@update');
     Route::delete('areas/{id}', 'AreasController@destroy');
     
     // Features inside an area
-    Route::get('areas/{id}', 'ShapesController@trashesInArea');
-    Route::get('areas/{id}', 'ShapesController@littersInArea');
-    Route::get('areas/{id}', 'ShapesController@cleaningsInArea');
+    // Route::get('areas/{id}', 'AreasController@trashesInArea');
+    // Route::get('areas/{id}', 'AreasController@littersInArea');
+    // Route::get('areas/{id}', 'AreasController@cleaningsInArea');
     
     // Cleanings aka meetings
     Route::get('cleanings', 'CleaningsController@index');
