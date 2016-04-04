@@ -67,8 +67,8 @@ return [
         'pgsql' => [
             'driver'   => 'pgsql',
             'host'     => env('DB_HOST', 'localhost'),
-            'database' => env('DB_DATABASE', 'gpstaging'),
-            'username' => env('DB_USERNAME', 'gpstaging'),
+            'database' => env('DB_DATABASE', 'garbageplanet_unstable'),
+            'username' => env('DB_USERNAME', 'garbageplanet_unstable'),
 	    'unix_socket'   => '/var/run/postgresql',
             'password' => env('DB_PASSWORD', ''),
             'charset'  => 'utf8',
