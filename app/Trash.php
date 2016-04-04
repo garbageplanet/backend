@@ -89,39 +89,4 @@ class Trash extends Model
         return true;
     }
 
-    public function notifyHelsinkiAboutTheTrash()
-    {
-        $data = [
-            'api_key' => 'f1301b1ded935eabc5faa6a2ce975f6',
-            'description' => 'garbagapla.net-palvelusta lähetetty ilmoitus merkittävästä roskan määrästä',
-            'service_code' => '246',
-            'lat' => $this->lat,
-            'long' => $this->lng,
-        ];
-        $ch = curl_init();
-        // Set URL to download
-        curl_setopt($ch, CURLOPT_URL, 'http://dev.hel.fi/open311-test/v1/requests.json');
-        // Set a referer
-        curl_setopt($ch, CURLOPT_REFERER, "http://www.example.org/yay.htm");
-        // User agent
-        curl_setopt($ch, CURLOPT_USERAGENT, "MozillaXYZ/1.0");
-        // Include header in result? (0 = yes, 1 = no)
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-
-        // Should cURL return or print out the data? (true = return, false = print)
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-        // Timeout in seconds
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-
-        // Download the given URL, and return output
-        $output = curl_exec($ch);
-        $outputArray = json_decode($output);
-        //
-        //set service_id to the trash
-        $this->helsinki_service_request_id = $outputArray[0]->service_request_id;
-        $this->save();
-    }
 }

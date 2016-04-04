@@ -108,9 +108,7 @@ class TrashesController extends Controller
         $trash = Auth::user()->markedTrashes()->create($data);
         $trash->makePoint();
         $trash->addTypes($request->types);
-        if ($trash->amount > 3) {
-            $trash->notifyHelsinkiAboutTheTrash();
-        }
+
         //long route to do this
         $array = $trash->toArray();
         $array['types'] = $trash->types->pluck('type')->toArray();
