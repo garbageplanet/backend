@@ -15,7 +15,6 @@ class CreateLittersTable extends Migration
         Schema::create('litters', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('marked_by')->unsigned();
-            $table->foreign('marked_by')->references('id')->on('users');
             $table->string('latlngs')->nullable();
             $table->integer('amount')->nullable();
             $table->integer('feature_type')->nullable();

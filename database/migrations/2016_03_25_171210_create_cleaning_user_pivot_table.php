@@ -16,7 +16,6 @@ class CreateCleaningUserPivotTable extends Migration
             $table->integer('cleaning_id')->unsigned()->index();
             $table->foreign('cleaning_id')->references('id')->on('cleanings')->onDelete('cascade');
             $table->integer('user_id')->unsigned()->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -15,7 +15,6 @@ class CreateTrashesTable extends Migration
         Schema::create('trashes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('marked_by')->unsigned()->nullable();
-            $table->foreign('marked_by')->references('id')->on('users')->nullable();
             $table->string('lat')->nullable();
             $table->string('lng')->nullable();
             $table->integer('amount')->nullable();

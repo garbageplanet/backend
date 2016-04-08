@@ -26,5 +26,8 @@ $factory->define(App\Trash::class, function (Faker\Generator $faker) {
         'lng' => $faker->longitude,
         'amount' => 1,
         'image_url' => 'garbagepla.net/img_12312',
+        'todo' => 1,
+        'sizes' => 1,
+        'embed' =>1,
     ];
 });

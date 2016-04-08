@@ -15,7 +15,6 @@ class CreateCleaningsTable extends Migration
         Schema::create('cleanings', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('created_by')->unsigned();
-            $table->foreign('created_by')->references('id')->on('users');
             $table->integer('modified_by')->unsigned();
             $table->string('lat')->nullable();
             $table->string('lng')->nullable();
