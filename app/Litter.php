@@ -71,7 +71,7 @@ class Litter extends Model
         $replstr = array(" ","","");
         $geomlatlngs = str_replace($findstr, latlngs, $replstr);
                     
-        $affected = DB::update('UPDATE trashes SET geom = ST_SetSRID(ST_MakeLine(ST_GeomFromText(LINESTRING(?)))), 4326) WHERE id = ?', [$this->$geomlatlngs, $this->id]);
+        $affected = DB::update('UPDATE litters SET geom = ST_SetSRID(ST_MakeLine(ST_GeomFromText(LINESTRING(?)))), 4326) WHERE id = ?', [$this->$geomlatlngs, $this->id]);
         return $affected;
     }
 

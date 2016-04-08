@@ -50,8 +50,8 @@ return [
         'pgsql' => [
             'driver'   => 'pgsql',
             'host'     => env('DB_HOST', 'localhost'),
-            'database' => env('DB_DATABASE', 'homestead'),
-            'username' => env('DB_USERNAME', 'secret'),
+            'database' => env('DB_DATABASE', ''),
+            'username' => env('DB_USERNAME', ''),
 	     'unix_socket' => '/var/run/postgresql',
             'password' => env('DB_PASSWORD', ''),
             'charset'  => 'utf8',

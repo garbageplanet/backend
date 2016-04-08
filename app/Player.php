@@ -17,8 +17,7 @@ use Auth;
 class Player extends Model
 {
     /**
-    NB: A 'Confirm' is the event of confirming there is garbage at a location.
-    * TODO make this as a count function on each confirm
+
      */
     protected $fillable = [
         'area_id',

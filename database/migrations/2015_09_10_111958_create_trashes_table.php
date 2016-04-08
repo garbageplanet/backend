@@ -21,9 +21,9 @@ class CreateTrashesTable extends Migration
             $table->string('image_url')->nullable();
             $table->string('feature_type')->nullable();
             $table->mediumText('note')->nullable();
-            $table->integer('todo')->nullable();
-            $table->integer('sizes')->nullable();
-            $table->integer('embed')->nullable();
+            $table->string('todo')->nullable();
+            $table->string('sizes')->nullable();
+            $table->string('embed')->nullable();
             $table->timestamps();
         });
         DB::statement('ALTER TABLE trashes ADD geom geometry(POINT,4326)' );

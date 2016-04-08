@@ -1,1 +1,0 @@
-{"virtualbox":{"/home/vagrant/roskapi":{"type":null,"mount_options":[],"guestpath":"/home/vagrant/roskapi","hostpath":"/Users/villeglad/Code/roskapi","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/Users/villeglad/Code/roskapi","disabled":false,"__vagrantfile":true}}}

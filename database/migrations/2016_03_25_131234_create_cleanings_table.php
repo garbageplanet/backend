@@ -15,12 +15,12 @@ class CreateCleaningsTable extends Migration
         Schema::create('cleanings', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('created_by')->unsigned();
-            $table->integer('modified_by')->unsigned();
+            $table->integer('modified_by')->unsigned()->nullable();
             $table->string('lat')->nullable();
             $table->string('lng')->nullable();
             $table->string('feature_type')->nullable();
             $table->dateTime('datetime')->nullable();
-            $table->integer('recurrence')->nullable();
+            $table->string('recurrence')->nullable();
             $table->mediumText('note')->nullable();
             $table->timestamps();
         });
