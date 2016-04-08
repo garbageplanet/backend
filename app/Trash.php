@@ -23,7 +23,7 @@ class Trash extends Model
         'todo',
         'image_url',
         'feature_type',
-        'size',
+        'sizes',
         'embed',
         'note',
         'geom'
@@ -50,10 +50,10 @@ class Trash extends Model
         return $this->hasMany('App\Tag', 'trash_id');
     }
     
-    public function confirms()
+/*    public function confirms()
     {
         return $this->hasMany('App\Confirm', 'trash_id');
-    }
+    }*/
 
     public function cleans()
     {

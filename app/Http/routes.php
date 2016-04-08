@@ -74,6 +74,3 @@ Route::group(['prefix' => 'api'], function() {
     Route::delete('cleanings/{id}', 'CleaningsController@destroy');
 
 });
-Route::get('/welcome', function () {
-    return view('welcome');
-});

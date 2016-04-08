@@ -32,7 +32,6 @@ class CleaningsController extends Controller
         $cleanings = Cleaning::all();
 
         //long route to do this
-        //dd($trashes);
         $cleaningsArray= [];
         foreach ($cleanings as $cleaning) {
             $array = $cleaning->toArray();
@@ -77,13 +76,6 @@ class CleaningsController extends Controller
         }
         $cleanings = Cleaning::whereIn('id', $cleaning_ids)->get();
 
-        $cleaningsArray= [];
-        foreach ($cleanings as $cleaning) {
-            $array = $cleaning->toArray();
-            $cleaningsArray[] = $array;
-        }
-
-        $cleanings = collect($cleaningsArray);
         return $cleanings;
     }
 
@@ -104,13 +96,8 @@ class CleaningsController extends Controller
         }
         $cleaning = Auth::user()->createdCleanings()->create($data);
         $cleaning->makePoint();
-        $cleaning->addDate($request->date);
-        //long route to do this
-        $array = $cleaning->toArray();
 
-        $cleaning = collect($array);
-
-        return $trash;
+        return $cleaning;
     }
 
     /**

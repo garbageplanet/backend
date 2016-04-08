@@ -17,8 +17,9 @@ class CreateAreasTable extends Migration
             $table->string('title');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('latlngs');
-            $table->mediumText('note');
+            $table->string('latlngs')->nullable();
+            $table->mediumText('note')->nullable();
+            $table->integer('feature_type')->nullable();
             $table->timestamps();
         });
         DB::statement('ALTER TABLE areas ADD geom geometry(LINESTRING,4326)' );

@@ -32,11 +32,12 @@ class TrashesController extends Controller
         $trashes = Trash::all();
 
         //long route to do this
-        //dd($trashes);
         $trashesArray= [];
         foreach ($trashes as $trash) {
             $array = $trash->toArray();
             $array['types'] = $trash->types->pluck('type')->toArray();
+            $array['sizes'] = $trash->sizes->pluck('size')->toArray();
+            $array['embeds'] = $trash->embeds->pluck('embed')->toArray();
             $trashesArray[] = $array;
         }
 
@@ -105,11 +106,12 @@ class TrashesController extends Controller
             $user = User::create(['email' => $glome, 'password' => '12345678', 'name' => $glome]);
             Auth::attempt(['email' => $glome, 'password' => '12345678']);
         }
+        
         $trash = Auth::user()->markedTrashes()->create($data);
-        $trash->makePoint();
+        $trash->makePoint();        
+        
+        // Add types
         $trash->addTypes($request->types);
-
-        //long route to do this
         $array = $trash->toArray();
         $array['types'] = $trash->types->pluck('type')->toArray();
 
@@ -130,6 +132,7 @@ class TrashesController extends Controller
         //long route to do this
         $array = $trash->toArray();
         $array['types'] = $trash->types->pluck('type')->toArray();
+
         $trash = collect($array);
         return $trash;
     }
@@ -149,7 +152,7 @@ class TrashesController extends Controller
 
         //update request
         $trash->update($request->all());
-        //delete types
+        //delete types, sizes and embeds
         $trash->types()->delete();
         //add new types
         $trash->addTypes($request->types);
@@ -185,10 +188,9 @@ class TrashesController extends Controller
     {
         //find id
         $trash = Trash::findOrFail($id);
-        //delete
+        //delete types
         $trash->types()->delete();
         $trash->delete();
-        //delete types
 
         return response()->json("{}", 200);
 

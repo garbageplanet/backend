@@ -18,8 +18,17 @@ class TrashType extends Model
         return $this->belongsTo('App\Trash');
     }
     
+}
+
+/*class LitterType extends Model
+{
+    protected $fillable = [
+        'user_id', 
+        'type'
+    ];
+    
     public function litter()
     {
         return $this->belongsTo('App\Litter');
     }
-}
+}*/

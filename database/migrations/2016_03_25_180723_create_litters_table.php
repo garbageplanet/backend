@@ -16,10 +16,10 @@ class CreateLittersTable extends Migration
             $table->increments('id');
             $table->integer('marked_by')->unsigned();
             $table->foreign('marked_by')->references('id')->on('users');
-            $table->string('latlngs');
-            $table->integer('amount');
-            $table->mediumText('note');
-            $table->integer('feature_type');
+            $table->string('latlngs')->nullable();
+            $table->integer('amount')->nullable();
+            $table->integer('feature_type')->nullable();
+            $table->mediumText('note')->nullable();
             $table->timestamps();
         });
         DB::statement('ALTER TABLE litters ADD geom geometry(LINESTRING,4326)' );

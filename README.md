@@ -13,7 +13,6 @@ Repository for the garbagepla.net api (made with Laravel 5.1). You can visit the
 - [ ] only creator can edit / delete own data
 - [ ] GET / POST lat lngs as single field (lat.lat,lng.lng) or in brackets
 - [ ] add regex checks for fields in all controllers
-- [ ] wrap routes inside middleware?
 
 #### Network
 - [ ] set CORS so that the api is accessible only from garbagepla.net for now

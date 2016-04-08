@@ -16,12 +16,11 @@ class Cleaning extends Model
         'created_by',
         'lat',
         'lng',
-        'name',
         'note',
-        'organizer',
         'datetime',
+        'recurrence',
         'feature_type',
-        'tag'
+        'geom'
     ];
 
     /**
@@ -56,10 +55,10 @@ class Cleaning extends Model
         return $this->hasMany('App\Tag');
     }
 
-    public function users()
+/*    public function users()
     {
         return $this->belongsToMany('App\User');
-    }
+    }*/
 
 
     /********************
