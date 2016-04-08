@@ -36,16 +36,20 @@ class TrashesControllerTest extends TestCase
 
     public function test_store_new_trash()
     {
+        $randomNote = str_random(5);
         $user = factory(App\User::class)->create();
         $this->actingAs($user);
-        /*$response = $this->call('POST', '/api/trashes', [
+        $response = $this->call('POST', '/api/trashes', [
                 'marked_by' => $user->id,
                 'lat' => '60.1521',
                 'lng' => '24.124',
                 'amount' => 4,
+                'note' => $randomNote,
+                'feature_type' => 'x1',
+                'todo' => 'yes',
         ]);
         $this->assertContains('"lat":"60.1521', $response->content());
-        $this->assertEquals(true, $response->getOriginalContent()->wasRecentlyCreated);*/
+        $this->seeInDatabase('trashes', ['lat' => '60.1521', 'lng' => '24.124', 'note' => $randomNote]);
     }
 
     public function test_show_trash_by_id()
