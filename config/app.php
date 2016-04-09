@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'url' => '/home/gplanet/garbageplanet/api_unstable_github',
+    'url' => env('APP_ROOT', ''), 
     // 'url' => '/home/vagrant/code/dist-api/dist-dev',
 
     /*
