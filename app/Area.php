@@ -14,7 +14,6 @@ class Area extends Model
         'contact',
         'note',
         'latlngs',
-        'feature_type',
         'geom'
     ];
     
@@ -64,11 +63,21 @@ class Area extends Model
     
     public function makeArea()
     { 
-        $findstr = array(", ","[","]");
-        $replstr = array(" ","","");
-        $geomlatlngs = str_replace($findstr, latlngs, $replstr);
+        $find_str = array(", ","[","]");
+        $repl_str = array(" ","","");
         
-        $affected = DB::update('UPDATE areas SET geom = ST_SetSRID(ST_MakePolygon(ST_GeomFromText(LINESTRING(?))), 4326) WHERE id = ?', [$this->$geomlatlngs, $this->id]);
+        // Parse the latlngs array and close the polygon with the first latlng to create the geom
+        $geomlatlngs = str_replace($find_str, $repl_str, $this->latlngs);
+        $geomlatlngs = explode(",",$geomlatlngs);
+        $geomlatlngs = array_merge($geomlatlngs, array_slice($geomlatlngs,0, 1));
+        $geomlatlngs = implode(",",$geomlatlngs);
+        // dd($geomlatlngs);
+        
+        // "ST_AddPoint(the_geom, ST_PointN(the_geom, 1))"
+        $query = "UPDATE areas SET geom = ST_SetSRID(ST_MakePolygon(ST_GeomFromText('LINESTRING($geomlatlngs)')), 4326) WHERE id = $this->id";
+
+        $affected = DB::update($query);
+        
         return $affected;
     }
 

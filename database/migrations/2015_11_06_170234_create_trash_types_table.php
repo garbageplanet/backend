@@ -14,7 +14,8 @@ class CreateTrashTypesTable extends Migration
     {
         Schema::create('trash_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('trash_id');
+            $table->integer('trash_id')->nullable();
+            $table->integer('litter_id')->nullable();
             $table->string('type')->nullable();
             $table->timestamps();
         });

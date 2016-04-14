@@ -17,12 +17,10 @@ class Trash extends Model
      */
     protected $fillable = [
         'marked_by',
-        'lat',
-        'lng',
+        'latlng',
         'amount',
         'todo',
         'image_url',
-        'feature_type',
         'sizes',
         'embed',
         'note',
@@ -76,7 +74,11 @@ class Trash extends Model
      */
     public function makePoint()
     {
-        $affected = DB::update('UPDATE trashes SET geom = ST_SetSRID(ST_MakePoint(?, ?), 4326) WHERE id = ?', [$this->lat, $this->lng, $this->id]);
+         
+        $query = "UPDATE trashes SET geom = ST_SetSRID(ST_MakePoint($this->latlng), 4326) WHERE id = $this->id";
+        
+        $affected = DB::update($query);
+        
         return $affected;
     }
 

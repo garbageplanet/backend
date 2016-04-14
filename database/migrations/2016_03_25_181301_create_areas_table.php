@@ -14,14 +14,15 @@ class CreateAreasTable extends Migration
     {
         Schema::create('areas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->integer('user_id')->unsigned();
-            $table->string('latlngs')->nullable();
+            $table->integer('created_by')->unsigned();
+            $table->string('title')->nullable();
+            $table->text('latlngs')->nullable();
+            $table->string('contact')->nullable();
+            $table->string('game')->nullable();
             $table->mediumText('note')->nullable();
-            $table->integer('feature_type')->nullable();
             $table->timestamps();
         });
-        DB::statement('ALTER TABLE areas ADD geom geometry(LINESTRING,4326)' );
+        DB::statement('ALTER TABLE areas ADD geom geometry(POLYGON,4326)' );
     }
 
     /**

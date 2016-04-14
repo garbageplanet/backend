@@ -15,10 +15,12 @@ class CreateLittersTable extends Migration
         Schema::create('litters', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('marked_by')->unsigned();
-            $table->string('latlngs')->nullable();
+            $table->text('latlngs')->nullable();
             $table->integer('amount')->nullable();
-            $table->integer('feature_type')->nullable();
             $table->mediumText('note')->nullable();
+            $table->string('todo')->nullable();
+            $table->string('image_url')->nullable();
+            $table->string('physical_length')->nullable();
             $table->timestamps();
         });
         DB::statement('ALTER TABLE litters ADD geom geometry(LINESTRING,4326)' );

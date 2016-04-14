@@ -12,10 +12,8 @@ class Litter extends Model
         'latlngs',
         'amount',
         'todo',
-        'cleaned',
         'image_url',
         'note',
-        'feature_type',
         'physical_length',
         'geom'
     ];
@@ -66,12 +64,15 @@ class Litter extends Model
      * @return Illuminate\Database\Eloquent\Model
      */
     public function makeLine()
-    { 
-        $findstr = array(", ","[","]");
-        $replstr = array(" ","","");
-        $geomlatlngs = str_replace($findstr, latlngs, $replstr);
-                    
-        $affected = DB::update('UPDATE litters SET geom = ST_SetSRID(ST_MakeLine(ST_GeomFromText(LINESTRING(?)))), 4326) WHERE id = ?', [$this->$geomlatlngs, $this->id]);
+    {
+        $find_str = array(", ","[","]");
+        $repl_str = array(" ","","");
+        $geomlatlngs = str_replace($find_str, $repl_str, $this->latlngs);
+                
+        $query = "UPDATE litters SET geom = ST_SetSRID(ST_GeomFromText('LINESTRING($geomlatlngs)'), 4326) WHERE id = $this->id";
+        
+        $affected = DB::update($query);
+        
         return $affected;
     }
 

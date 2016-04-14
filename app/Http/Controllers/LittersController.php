@@ -62,7 +62,12 @@ class LittersController extends Controller
         $sw_lng = $coordinates[3];
         $ne_lat = $coordinates[0];
         $ne_lng = $coordinates[1];
-
+        
+        $query = "SELECT * FROM litters WHERE litters.geom && ST_MakeEnvelope('$sw_lat', '$sw_lng', '$ne_lat', '$ne_lng', 4326)";
+            
+        $litters = DB::select($query);
+        
+/*
         $litters = DB::select('
             SELECT *
             FROM litters
@@ -70,6 +75,7 @@ class LittersController extends Controller
             WHERE litters.geom && ST_MakeEnvelope(?, ?, ?, ?)'
             ,
             [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
+*/
 
         //get id's of the litters
         $litter_ids = [];
@@ -105,7 +111,10 @@ class LittersController extends Controller
             Auth::attempt(['email' => $glome, 'password' => '12345678']);
         }
         $litter = Auth::user()->markedLitters()->create($data);
+        
+        //Skip this for now
         $litter->makeLine();
+        
         $litter->addTypes($request->types);
         //long route to do this
         $array = $litter->toArray();

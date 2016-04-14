@@ -14,12 +14,10 @@ class Cleaning extends Model
      */
     protected $fillable = [
         'created_by',
-        'lat',
-        'lng',
+        'latlng',
         'note',
         'datetime',
         'recurrence',
-        'feature_type',
         'geom'
     ];
 
@@ -35,8 +33,11 @@ class Cleaning extends Model
      */
 
     public function makePoint()
-    {
-        $affected = DB::update('UPDATE cleanings SET geom = ST_SetSRID(ST_MakePoint(?, ?), 4326) WHERE id = ?', [$this->lat, $this->lng, $this->id]);
+    {          
+        $query = "UPDATE cleanings SET geom = ST_SetSRID(ST_MakePoint($this->latlng), 4326) WHERE id = $this->id";
+        
+        $affected = DB::update($query);
+        
         return $affected;
     }
   

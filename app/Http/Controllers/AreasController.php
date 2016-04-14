@@ -102,6 +102,7 @@ class AreasController extends Controller
             Auth::attempt(['email' => $glome, 'password' => '12345678']);
         }
         $area = Auth::user()->createdAreas()->create($data);
+        // Create the postgis geometry
         $area->makeArea();
         //long route to do this
         $array = $area->toArray();

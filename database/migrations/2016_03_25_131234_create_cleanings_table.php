@@ -16,9 +16,7 @@ class CreateCleaningsTable extends Migration
             $table->increments('id');
             $table->integer('created_by')->unsigned();
             $table->integer('modified_by')->unsigned()->nullable();
-            $table->string('lat')->nullable();
-            $table->string('lng')->nullable();
-            $table->string('feature_type')->nullable();
+            $table->string('latlng')->nullable();
             $table->dateTime('datetime')->nullable();
             $table->string('recurrence')->nullable();
             $table->mediumText('note')->nullable();

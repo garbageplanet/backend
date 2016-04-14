@@ -36,8 +36,6 @@ class TrashesController extends Controller
         foreach ($trashes as $trash) {
             $array = $trash->toArray();
             $array['types'] = $trash->types->pluck('type')->toArray();
-            $array['sizes'] = $trash->sizes->pluck('size')->toArray();
-            $array['embeds'] = $trash->embeds->pluck('embed')->toArray();
             $trashesArray[] = $array;
         }
 
