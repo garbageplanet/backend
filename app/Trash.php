@@ -48,10 +48,10 @@ class Trash extends Model
         return $this->hasMany('App\Tag', 'trash_id');
     }
     
-/*    public function confirms()
+    public function confirms()
     {
         return $this->hasMany('App\Confirm', 'trash_id');
-    }*/
+    }
 
     public function cleans()
     {

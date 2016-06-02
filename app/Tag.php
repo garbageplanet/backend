@@ -31,17 +31,17 @@ class Tag extends Model
         return $this->belongsToMany('App\Trash');
     }
 
-    public function meeting()
+    public function cleanings()
     {
         return $this->belongsToMany('App\Cleaning');
     }
     
-        public function litter()
+        public function litters()
     {
         return $this->belongsToMany('App\Litter');
     }
     
-        public function area()
+        public function areas()
     {
         return $this->belongsToMany('App\Area');
     }

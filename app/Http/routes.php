@@ -18,11 +18,12 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'api'], function() {
-    //Auth (login, authenticate, register)
+    //Auth (login, authenticate, register, logout)
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::get('authenticate/user', 'AuthenticateController@getAuthenticatedUser');
     Route::post('register', 'AuthenticateController@postRegister');
     Route::delete('authenticate/delete', 'AuthenticateController@deleteUser');
+    Route::get('authenticate/logout', 'AuthenticateController@getLogout');
 
     //glome
     Route::post('glome/create', 'GlomeController@createSoftAccount');

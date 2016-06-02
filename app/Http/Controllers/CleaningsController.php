@@ -148,7 +148,7 @@ class CleaningsController extends Controller
         //find id
         $cleaning = Cleaning::findOrFail($id);
         //delete
-        $cleanings->delete();
+        $cleaning->delete();
         //delete types
 
         return response()->json("{}", 200);
