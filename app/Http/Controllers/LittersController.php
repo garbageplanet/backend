@@ -51,31 +51,13 @@ class LittersController extends Controller
      * @return Response
      */
     public function withinBounds(Request $request)
-    {
-        // TODO Validate (regex validation to bounds)
-        // TODO at least one coordinate inside the bounds
-        //
-        // parse bounds
-
-        $coordinates = explode(", ", $request->bounds);
-        $sw_lat = $coordinates[2];
-        $sw_lng = $coordinates[3];
-        $ne_lat = $coordinates[0];
-        $ne_lng = $coordinates[1];
+    {  
+        // parse bounds        
+        $bounds = str_replace(",", ", ", $request->bounds);
+                
+        $query = "SELECT * FROM litters WHERE litters.geom && ST_MakeEnvelope($bounds)";
         
-        $query = "SELECT * FROM litters WHERE litters.geom && ST_MakeEnvelope('$sw_lat', '$sw_lng', '$ne_lat', '$ne_lng', 4326)";
-            
         $litters = DB::select($query);
-        
-/*
-        $litters = DB::select('
-            SELECT *
-            FROM litters
-
-            WHERE litters.geom && ST_MakeEnvelope(?, ?, ?, ?)'
-            ,
-            [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
-*/
 
         //get id's of the litters
         $litter_ids = [];

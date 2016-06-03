@@ -51,23 +51,12 @@ class AreasController extends Controller
      */
     public function withinBounds(Request $request)
     {
-        // TODO Validate (regex validation to bounds)
-        // TODO at least one coordinate inside the bounds
-        // parse bounds
-
-        $coordinates = explode(", ", $request->bounds);
-        $sw_lat = $coordinates[2];
-        $sw_lng = $coordinates[3];
-        $ne_lat = $coordinates[0];
-        $ne_lng = $coordinates[1];
-
-        $areas = DB::select('
-            SELECT *
-            FROM areas
-
-            WHERE areas.geom && ST_MakeEnvelope(?, ?, ?, ?)'
-            ,
-            [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
+        // parse bounds        
+        $bounds = str_replace(",", ", ", $request->bounds);
+                
+        $query = "SELECT * FROM areas WHERE areas.geom && ST_MakeEnvelope($bounds)";
+        
+        $areas = DB::select($query);
 
         //get id's of the areas
         $area_ids = [];

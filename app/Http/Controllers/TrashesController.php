@@ -52,32 +52,24 @@ class TrashesController extends Controller
      */
     public function withinBounds(Request $request)
     {
-        //TODO: Validate (regex validation to bounds)
-        //
-        // parse bounds
-
-        $coordinates = explode(", ", $request->bounds);
-        $sw_lat = $coordinates[2];
-        $sw_lng = $coordinates[3];
-        $ne_lat = $coordinates[0];
-        $ne_lng = $coordinates[1];
-
-        $trashes = DB::select('
-            SELECT *
-            FROM trashes
-
-            WHERE trashes.geom && ST_MakeEnvelope(?, ?, ?, ?)'
-            ,
-            [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
-
+        // parse bounds        
+        $bounds = str_replace(",", ", ", $request->bounds);
+                
+        $query = "SELECT * FROM trashes WHERE trashes.geom && ST_MakeEnvelope($bounds)";
+        
+        $trashes = DB::select($query);
+        
         //get id's of the trashes
         $trash_ids = [];
+        
         foreach ($trashes as $trash) {
             $trash_ids[] = $trash->id;
         }
+        
         $trashes = Trash::whereIn('id', $trash_ids)->get();
 
         $trashesArray= [];
+        
         foreach ($trashes as $trash) {
             $array = $trash->toArray();
             $array['types'] = $trash->types->pluck('type')->toArray();
@@ -85,6 +77,7 @@ class TrashesController extends Controller
         }
 
         $trashes = collect($trashesArray);
+        
         return $trashes;
     }
 

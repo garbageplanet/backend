@@ -51,29 +51,20 @@ class CleaningsController extends Controller
      */
     public function withinBounds(Request $request)
     {
-        //TODO: Validate (regex validation to bounds)
-        //
-        // parse bounds
-
-        $coordinates = explode(", ", $request->bounds);
-        $sw_lat = $coordinates[2];
-        $sw_lng = $coordinates[3];
-        $ne_lat = $coordinates[0];
-        $ne_lng = $coordinates[1];
-
-        $cleanings = DB::select('
-            SELECT *
-            FROM cleanings
-
-            WHERE cleanings.geom && ST_MakeEnvelope(?, ?, ?, ?)'
-            ,
-            [$sw_lat, $sw_lng, $ne_lat, $ne_lng]);
+        // parse bounds        
+        $bounds = str_replace(",", ", ", $request->bounds);
+                
+        $query = "SELECT * FROM cleanings WHERE cleanings.geom && ST_MakeEnvelope($bounds)";
+        
+        $cleanings = DB::select($query);
 
         //get id's of the cleanings
         $cleaning_ids = [];
+        
         foreach ($cleanings as $cleaning) {
             $cleaning_ids[] = $cleaning->id;
         }
+        
         $cleanings = Cleaning::whereIn('id', $cleaning_ids)->get();
 
         return $cleanings;
