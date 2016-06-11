@@ -38,18 +38,7 @@ class Litter extends Model
     {
         return $this->hasMany('App\Tag', 'litter_id');
     }
-    
-    public function confirms()
-    {
-        return $this->hasMany('App\Confirm', 'litter_id');
-    }
 
-    public function cleans()
-    {
-        return $this->hasMany('App\Clean', 'litter_id');
-    }
-
-    // TODO creator() vs user() for ownership?, aren't they the same
     public function creator()
     {
         return $this->belongsTo('App\User', 'marked_by');
@@ -76,6 +65,17 @@ class Litter extends Model
         return $affected;
     }
 
+    // confirm the presence of garbage at a litter
+    public function confirm()
+    {
+         
+        $query = "UPDATE ONLY litters SET confirms = confirms + 1  WHERE id = $this->id";
+        
+        $affected = DB::update($query);
+        
+        return $affected;
+    }
+    
     public function addTypes($types)
     {
         $types = explode(",", $types);

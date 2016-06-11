@@ -23,7 +23,7 @@ class JoinController extends Controller
     public function add()
     {
       // NOTE This controller is for counting the users who join a cleaning event
-      // TODO add an integer to the 'joined' field on cleaning_id
+      // TODO add a +1 integer to the 'joined' field on cleaning_id in db
     }
 
 }

@@ -81,6 +81,27 @@ class Trash extends Model
         
         return $affected;
     }
+    
+    // confirm the presence of garbage at a marker
+    public function confirm()
+    {
+         
+        $query = "UPDATE ONLY trashes SET confirms = confirms + 1  WHERE id = $this->id";
+        
+        $affected = DB::update($query);
+        
+        return $affected;
+    }
+    
+    public function cleaned()
+    {
+        // toggle the current value in the db
+        $query = "UPDATE ONLY trashes SET cleaned = NOT cleaned WHERE id = $this->id";
+        
+        $affected = DB::update($query);
+        
+        return $affected;
+    }
 
     public function addTypes($types)
     {

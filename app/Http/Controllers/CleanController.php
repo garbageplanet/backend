@@ -23,7 +23,7 @@ class CleanController extends Controller
 
     public function toggle()
     {
-      // TODO toggle the cleaned field on litter_id or trash_id
+      // TODO toggle the cleaned field on litter_id or trash_id in db
     }
 
 }

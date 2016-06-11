@@ -127,6 +127,19 @@ class CleaningsController extends Controller
         $cleaning = collect($array);
         return $cleaning;
     }
+    
+    public function attend(Request $request, $id)
+    {
+        $cleaning = Cleaning::findOrFail($id);
+        
+        $cleaning->attend($id);
+        
+        if($cleaning->save()) {
+            $returnData = $cleaning->find($cleaning->id)->toArray();
+            $data = array ("message" => "event updated","data" => $returnData );
+            return response()->json(["data" => $data], 200);            
+        } 
+    }
 
     /**
      * Remove the specified resource from storage.

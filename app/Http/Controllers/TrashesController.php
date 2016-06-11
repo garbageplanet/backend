@@ -33,6 +33,7 @@ class TrashesController extends Controller
 
         //long route to do this
         $trashesArray= [];
+        
         foreach ($trashes as $trash) {
             $array = $trash->toArray();
             $array['types'] = $trash->types->pluck('type')->toArray();
@@ -40,9 +41,9 @@ class TrashesController extends Controller
         }
 
         $trashes = collect($trashesArray);
+        
         return $trashes;
-        // return response()->json($trashesArray, 200)->header('Access-Control-Allow-Origin', '*');
-
+        
     }
 
     /**
@@ -101,12 +102,13 @@ class TrashesController extends Controller
         $trash = Auth::user()->markedTrashes()->create($data);
         
         // $trash = Trash::create($data);
-        
         $trash->makePoint();        
         
         // Add types
         $trash->addTypes($request->types);
+        
         $array = $trash->toArray();
+        
         $array['types'] = $trash->types->pluck('type')->toArray();
 
         $trash = collect($array);
@@ -125,9 +127,11 @@ class TrashesController extends Controller
         $trash = Trash::findOrFail($id);
         //long route to do this
         $array = $trash->toArray();
+        
         $array['types'] = $trash->types->pluck('type')->toArray();
 
         $trash = collect($array);
+        
         return $trash;
     }
 
@@ -160,16 +164,17 @@ class TrashesController extends Controller
     
     public function confirm(Request $request, $id)
     {
-        //currently anyone authenticated user can update anything
-        //find id
+        
         $trash = Trash::findOrFail($id);
 
-        //update request
-        $trash->update($request->all());
-
-        $trash->confirm += 1;
-
-        return $trash;
+        $trash->confirm($id);
+        
+        if($trash->save()) {
+            $returnData = $trash->find($trash->id)->toArray();
+            $data = array ("message" => "trash updated","data" => $returnData );
+            return response()->json(["data" => $data], 200);            
+        } 
+        
     }
 
     /**
@@ -184,6 +189,7 @@ class TrashesController extends Controller
         $trash = Trash::findOrFail($id);
         //delete types
         $trash->types()->delete();
+        
         $trash->delete();
 
         return response()->json("{}", 200);

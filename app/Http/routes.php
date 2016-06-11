@@ -36,6 +36,7 @@ Route::group(['prefix' => 'api'], function() {
 
     Route::post('trashes', 'TrashesController@store');
     Route::put('trashes/{id}', 'TrashesController@update');
+    Route::put('trashes/confirm/{id}', 'TrashesController@confirm');
     Route::delete('trashes/{id}', 'TrashesController@destroy');
 
     // Litters (polylines)
@@ -46,9 +47,6 @@ Route::group(['prefix' => 'api'], function() {
     Route::post('litters', 'LittersController@store');
     Route::put('litters/{id}', 'LittersController@update');
     Route::delete('litters/{id}', 'LittersController@destroy');
-    
-    // Confirm litter or trash
-    Route::put('trashes/confirm/{id}', 'TrashesController@confirm');
     Route::put('litters/confirm/{id}', 'LittersController@confirm');
 
     // Areas (polygons)
@@ -72,6 +70,7 @@ Route::group(['prefix' => 'api'], function() {
 
     Route::post('cleanings', 'CleaningsController@store');
     Route::put('cleanings/{id}', 'CleaningsController@update');
+    Route::put('cleanings/attend/{id}', 'CleaningsController@attend');
     Route::delete('cleanings/{id}', 'CleaningsController@destroy');
 
 });

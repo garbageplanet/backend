@@ -55,6 +55,17 @@ class Cleaning extends Model
     {
         return $this->hasMany('App\Tag');
     }
+    
+    public function attend()
+    {
+         
+        $query = "UPDATE ONLY cleanings SET attends = attends + 1  WHERE id = $this->id";
+        
+        $affected = DB::update($query);
+        
+        return $affected;
+        
+    }
 
 /*    public function users()
     {

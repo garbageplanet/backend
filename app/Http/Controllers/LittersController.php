@@ -125,16 +125,15 @@ class LittersController extends Controller
     
     public function confirm(Request $request, $id)
     {
-        //currently anyone authenticated user can update anything
-        //find id
         $litter = Litter::findOrFail($id);
-
-        //update request
-        $litter->update($request->all());
-
-        $litter->confirm += 1;
-
-        return $litter;
+        
+        $litter->confirm($id);
+        
+        if($litter->save()) {
+            $returnData = $litter->find($litter->id)->toArray();
+            $data = array ("message" => "litter updated","data" => $returnData );
+            return response()->json(["data" => $data], 200);            
+        } 
     }
 
     /**
