@@ -13,8 +13,7 @@ class Area extends Model
         'max_players',
         'contact',
         'note',
-        'latlngs',
-        'geom'
+        'latlngs'
     ];
     
     protected $hidden = ['secret'];
@@ -39,7 +38,7 @@ class Area extends Model
         return $this->hasMany('App\Player', 'curr_player');
     }
 
-/*    public function trashesInsideArea()
+    public function trashesInsideArea()
     {
         // TODO make polygon selection here not rectangle bounds
         $trashes = DB::select('
@@ -59,7 +58,7 @@ class Area extends Model
         $trashes = Trash::whereIn('id', $trash_ids)->get();
 
         return $trashes;
-    }*/
+    }
     
     public function makeArea()
     { 

@@ -18,7 +18,7 @@ class Cleaning extends Model
         'note',
         'datetime',
         'recurrence',
-        'geom'
+        'joins'
     ];
 
     /**

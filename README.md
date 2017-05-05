@@ -7,7 +7,7 @@ Repository for the garbagepla.net api (made with Laravel 5.1). You can visit the
 
 #### Models & controllers
 - [ ] make `Game` controller and model to restrict user action in an area
-- [ ] only creator can edit / delete own data
+- [ ] upgrade to Laravel 5.5 LTS when out
 
 ### Licence
 This code is available under the MIT licence, see [the license file](https://github.com/garbageplanet/api/blob/dev/license.md) for more details.

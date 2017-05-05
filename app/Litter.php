@@ -15,7 +15,7 @@ class Litter extends Model
         'image_url',
         'note',
         'physical_length',
-        'geom'
+        'confirms'
     ];
 
     /**
@@ -70,6 +70,16 @@ class Litter extends Model
     {
          
         $query = "UPDATE ONLY litters SET confirms = confirms + 1  WHERE id = $this->id";
+        
+        $affected = DB::update($query);
+        
+        return $affected;
+    }
+  
+    public function clean()
+    {
+        // toggle the current value in the db
+        $query = "UPDATE ONLY trashes SET cleaned = NOT cleaned WHERE id = $this->id";
         
         $affected = DB::update($query);
         

@@ -176,6 +176,21 @@ class TrashesController extends Controller
         } 
         
     }
+  
+    public function clean(Request $request, $id)
+    {
+        
+        $trash = Trash::findOrFail($id);
+
+        $trash->clean($id);
+        
+        if($trash->save()) {
+            $returnData = $trash->find($trash->id)->toArray();
+            $data = array ("message" => "trash updated","data" => $returnData );
+            return response()->json(["data" => $data], 200);            
+        } 
+        
+    }
 
     /**
      * Remove the specified resource from storage.

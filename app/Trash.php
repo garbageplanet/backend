@@ -10,10 +10,7 @@ class Trash extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
-     
-     TODO get lat lng as a single field
-      
+     * @var array      
      */
     protected $fillable = [
         'marked_by',
@@ -24,7 +21,8 @@ class Trash extends Model
         'sizes',
         'embed',
         'note',
-        'geom'
+        'confirms',
+        'cleaned'
     ];
   
     /**
@@ -93,7 +91,7 @@ class Trash extends Model
         return $affected;
     }
     
-    public function cleaned()
+    public function clean()
     {
         // toggle the current value in the db
         $query = "UPDATE ONLY trashes SET cleaned = NOT cleaned WHERE id = $this->id";

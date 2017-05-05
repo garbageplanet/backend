@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Confirm extends Model
+class Join extends Model
 {
     /**
     NB: A 'Join' is the event of confirming a user comes to a cleaning event.

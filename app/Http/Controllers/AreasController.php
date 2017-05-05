@@ -45,7 +45,7 @@ class AreasController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource inside given bbox.
      *
      * @return Response
      */
@@ -73,6 +73,49 @@ class AreasController extends Controller
 
         $areas = collect($areasArray);
         return $areas;
+    }
+  
+      /**
+     * Return a listing of features inside given area polygon.
+     *
+     * @return Response
+     */
+    public function indexWithinBounds($id)
+    {
+        $area = Area::findOrFail($id);
+      
+        $garbagequery = "SELECT *, st_contains(garbages.geom, areas.geom) FROM garbages";
+        $litterquery = "SELECT *, st_contains(litters.geom, areas.geom) FROM litters";
+        $cleaningquery = "SELECT *, st_contains(cleanings.geom, areas.geom) FROM cleanings";
+      
+        $garbages = DB::select($garbagequery);
+        $litters = DB::select($litterquery);
+        $cleanings = DB::select($cleaningquery);
+      
+        $garbagesArray= [];
+        $littersArray= [];
+        $cleaningsArray= [];
+        
+       /* foreach ($garbages as $garbage) {
+          
+            $array1 = $garbage->toArray();
+            $garbagesArray[] = $array1;
+        }*/
+      
+        $iterator = new MultipleIterator ();
+        $iterator->attachIterator (new ArrayIterator ($garbagesArray));
+        $iterator->attachIterator (new ArrayIterator ($littersArray));
+        $iterator->attachIterator (new ArrayIterator ($cleaningArray));
+
+        foreach ($iterator as $item)
+        {
+            $array = $item->toArray();
+            $featuresArray[] = $array;
+        }
+      
+        $features = collect($featuresArray[]);
+        return $features;
+
     }
 
     /**
@@ -112,7 +155,9 @@ class AreasController extends Controller
         $area = Area::findOrFail($id);
         //long route to do this
         $array = $area->toArray();
+      
         $area = collect($array);
+      
         return $area;
     }
 
@@ -134,6 +179,7 @@ class AreasController extends Controller
         $array = $area->toArray();
 
         $area = collect($array);
+      
         return $area;
     }
 
