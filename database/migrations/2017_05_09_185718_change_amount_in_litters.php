@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ChangeAmountInTrashes extends Migration
+class ChangeAmountInLitters extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class ChangeAmountInTrashes extends Migration
      */
     public function up()
     {
-        Schema::table('trashes', function (Blueprint $table) {
+        Schema::table('litters', function (Blueprint $table) {
             $table->integer('amount')->default(3)->change();
         });
     }
@@ -24,7 +24,7 @@ class ChangeAmountInTrashes extends Migration
      */
     public function down()
     {
-        Schema::table('trashes', function (Blueprint $table) {
+        Schema::table('litters', function (Blueprint $table) {
             $table->integer('amount')->nullable()->change();
         });
     }

@@ -16,7 +16,7 @@ class CreateLittersTable extends Migration
             $table->increments('id');
             $table->integer('marked_by')->unsigned();
             $table->text('latlngs')->nullable();
-            $table->integer('amount')->default(3);
+            $table->integer('amount')->nullable();
             $table->mediumText('note')->nullable();
             $table->string('todo')->nullable();
             $table->string('image_url')->nullable();
