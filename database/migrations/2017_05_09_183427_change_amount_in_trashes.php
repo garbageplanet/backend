@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddCleanedToTrashes extends Migration
+class ChangeAmountInTrashes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class AddCleanedToTrashes extends Migration
     public function up()
     {
         Schema::table('trashes', function (Blueprint $table) {
-            $table->boolean('cleaned')->default(false);
+            $table->integer('amount')->nullable()->default(3)->change();
         });
-      
-        DB::statement('UPDATE `trashes` SET `cleaned` = `f`;');
     }
 
     /**
@@ -27,7 +25,7 @@ class AddCleanedToTrashes extends Migration
     public function down()
     {
         Schema::table('trashes', function (Blueprint $table) {
-            $table->dropColumn('cleaned');
+            $table->integer('amount')->default(3)->nullable(false)->change();
         });
     }
 }

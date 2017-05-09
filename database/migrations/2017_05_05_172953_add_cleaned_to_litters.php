@@ -15,6 +15,8 @@ class AddCleanedToLitters extends Migration
         Schema::table('litters', function (Blueprint $table) {
             $table->boolean('cleaned')->default(false);
         });
+      
+        DB::statement('UPDATE `litters` SET `cleaned` = `f`;');
     }
 
     /**

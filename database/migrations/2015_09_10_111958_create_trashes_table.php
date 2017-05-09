@@ -16,7 +16,7 @@ class CreateTrashesTable extends Migration
             $table->increments('id');
             $table->integer('marked_by')->unsigned()->nullable();
             $table->string('latlng')->nullable();
-            $table->integer('amount')->default(3);
+            $table->integer('amount')->nullable();
             $table->string('image_url')->nullable();
             $table->mediumText('note')->nullable();
             $table->string('todo')->nullable();
