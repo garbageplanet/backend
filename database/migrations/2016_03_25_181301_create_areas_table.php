@@ -15,10 +15,10 @@ class CreateAreasTable extends Migration
         Schema::create('areas', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('created_by')->unsigned();
-            $table->string('title')->nullable();
+            $table->string('title', 12)->unique();
             $table->text('latlngs')->nullable();
             $table->string('contact')->nullable();
-            $table->string('game')->nullable();
+            $table->boolean('game')->nullable();
             $table->mediumText('note')->nullable();
             $table->timestamps();
         });
