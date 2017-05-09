@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddServiceRequestIdToTrashesTable extends Migration
+class AddConfirmsToLitters extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class AddServiceRequestIdToTrashesTable extends Migration
      */
     public function up()
     {
-        Schema::table('trashes', function ($table) {
-            $table->string('helsinki_service_request_id')->nullable();
+        Schema::table('litters', function($table) {
+            $table->integer('confirms')->default(0);
         });
     }
 
@@ -24,8 +24,8 @@ class AddServiceRequestIdToTrashesTable extends Migration
      */
     public function down()
     {
-        Schema::table('trashes', function ($table) {
-            $table->dropColumn('helsinki_service_request_id');
+        Schema::table('litters', function($table) {
+            $table->dropColumn('confirms');
         });
     }
 }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTrashesTable extends Migration
+class CreateLittersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,19 +12,18 @@ class CreateTrashesTable extends Migration
      */
     public function up()
     {
-        Schema::create('trashes', function (Blueprint $table) {
+        Schema::create('litters', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('marked_by')->unsigned()->nullable();
-            $table->string('latlng')->nullable();
+            $table->integer('marked_by')->unsigned();
+            $table->text('latlngs')->nullable();
             $table->integer('amount')->nullable();
-            $table->string('image_url')->nullable();
             $table->mediumText('note')->nullable();
             $table->string('todo')->nullable();
-            $table->string('sizes')->nullable();
-            $table->string('embed')->nullable();
+            $table->string('image_url')->nullable();
+            $table->string('physical_length')->nullable();
             $table->timestamps();
         });
-        DB::statement('ALTER TABLE trashes ADD geom geometry(POINT,4326)' );
+        DB::statement('ALTER TABLE litters ADD geom geometry(LINESTRING,4326)' );
     }
 
     /**
@@ -34,6 +33,6 @@ class CreateTrashesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('trashes');
+        Schema::drop('litters');
     }
 }

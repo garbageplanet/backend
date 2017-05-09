@@ -3,8 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
-class Meeting extends Model
+class Cleaning extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -13,15 +14,11 @@ class Meeting extends Model
      */
     protected $fillable = [
         'created_by',
-        'modified_by',
-        'lat',
-        'lng',
-        'place',
-        'name',
-        'description',
-        'organizer',
-        'begins_at',
-        'ends_at'
+        'latlng',
+        'note',
+        'datetime',
+        'recurrence',
+        'joins'
     ];
 
     /**
@@ -35,6 +32,15 @@ class Meeting extends Model
      * Relationships begins
      */
 
+    public function makePoint()
+    {          
+        $query = "UPDATE cleanings SET geom = ST_SetSRID(ST_MakePoint($this->latlng), 4326) WHERE id = $this->id";
+        
+        $affected = DB::update($query);
+        
+        return $affected;
+    }
+  
     public function creator()
     {
         return $this->belongsTo('App\User', 'created_by');
@@ -44,16 +50,27 @@ class Meeting extends Model
     {
         return $this->belongsTo('App\User', 'modified_by');
     }
-
+  
     public function tags()
     {
-        return $this->belongsToMany('App\Tag');
+        return $this->hasMany('App\Tag');
+    }
+    
+    public function attend()
+    {
+         
+        $query = "UPDATE ONLY cleanings SET attends = attends + 1  WHERE id = $this->id";
+        
+        $affected = DB::update($query);
+        
+        return $affected;
+        
     }
 
-    public function users()
+/*    public function users()
     {
         return $this->belongsToMany('App\User');
-    }
+    }*/
 
 
     /********************

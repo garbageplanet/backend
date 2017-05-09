@@ -7,21 +7,23 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Trash;
+use App\Clean;
 use App\User;
 use JWTAuth;
 use DB;
 use Carbon\Carbon;
 use Auth;
 
-class Clean extends Model
+class Player extends Model
 {
     /**
-    NB: A 'Clean' is the event of cleaning garbage, not an actual cleaning event where people gather to clean garbage. A cleaning/gathering event is referred to as a 'Cleaning'.
+
      */
     protected $fillable = [
-        'trash_id',
+        'area_id',
         'user_id',
-        'litter_id'
+        'glome_id',
+        'curr_players'
     ];
 
     /**
@@ -39,16 +41,13 @@ class Clean extends Model
     {
         return $this->belongsTo('App\User', 'user_id');
     }
-
-    public function trash()
-    {
-        return $this->belongsTo('App\Trash', 'trash_id');
-    }
     
-    public function litter()
+    public function area()
     {
-        return $this->belongsTo('App\Litter', 'litter_id');
+        return $this->belongsTo('App\Area', 'area_id');
     }
+
+
 
     /********************
      * Relationships ends

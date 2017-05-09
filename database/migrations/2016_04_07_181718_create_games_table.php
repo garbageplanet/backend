@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCleansTable extends Migration
+class CreateGamesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,12 @@ class CreateCleansTable extends Migration
      */
     public function up()
     {
-        Schema::create('cleans', function (Blueprint $table) {
+        Schema::create('games', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('trash_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->string('name')->unique()->nullable();
+            $table->string('contact')->nullable();
+            $table->string('secret')->nullable();
+            $table->integer('players_amount')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateCleansTable extends Migration
      */
     public function down()
     {
-        Schema::drop('cleans');
+        Schema::drop('games');
     }
 }

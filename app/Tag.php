@@ -12,7 +12,7 @@ class Tag extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
+        'tag',
     ];
 
     /**
@@ -31,9 +31,19 @@ class Tag extends Model
         return $this->belongsToMany('App\Trash');
     }
 
-    public function meetings()
+    public function cleanings()
     {
-        return $this->belongsToMany('App\Meetings');
+        return $this->belongsToMany('App\Cleaning');
+    }
+    
+        public function litters()
+    {
+        return $this->belongsToMany('App\Litter');
+    }
+    
+        public function areas()
+    {
+        return $this->belongsToMany('App\Area');
     }
 
 

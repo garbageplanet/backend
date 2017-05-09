@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCleansTable extends Migration
+class ChangeAmountInTrashes extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,8 @@ class CreateCleansTable extends Migration
      */
     public function up()
     {
-        Schema::create('cleans', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('trash_id')->unsigned();
-            $table->integer('user_id')->unsigned();
-            $table->timestamps();
+        Schema::table('trashes', function (Blueprint $table) {
+            $table->integer('amount')->default(3)->change();
         });
     }
 
@@ -27,6 +24,8 @@ class CreateCleansTable extends Migration
      */
     public function down()
     {
-        Schema::drop('cleans');
+        Schema::table('trashes', function (Blueprint $table) {
+            $table->integer('amount')->nullable()->change();
+        });
     }
 }

@@ -5,26 +5,19 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
-class Trash extends Model
+class Litter extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array      
-     */
     protected $fillable = [
         'marked_by',
-        'latlng',
+        'latlngs',
         'amount',
         'todo',
         'image_url',
-        'sizes',
-        'embed',
         'note',
-        'confirms',
-        'cleaned'
+        'physical_length',
+        'confirms'
     ];
-  
+
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -38,25 +31,14 @@ class Trash extends Model
 
     public function types()
     {
-        return $this->hasMany('App\TrashType', 'trash_id');
+        return $this->hasMany('App\TrashType', 'litter_id');
     }
     
     public function tags()
     {
-        return $this->hasMany('App\Tag', 'trash_id');
-    }
-    
-    public function confirms()
-    {
-        return $this->hasMany('App\Confirm', 'trash_id');
+        return $this->hasMany('App\Tag', 'litter_id');
     }
 
-    public function cleans()
-    {
-        return $this->hasMany('App\Clean', 'trash_id');
-    }
-
-    // TODO creator() vs user() for ownership?, aren't they the same
     public function creator()
     {
         return $this->belongsTo('App\User', 'marked_by');
@@ -67,30 +49,33 @@ class Trash extends Model
      */
 
     /**
-     * make point with lat and long values
+     * make point with latlng values
      * @return Illuminate\Database\Eloquent\Model
      */
-    public function makePoint()
+    public function makeLine()
     {
-         
-        $query = "UPDATE trashes SET geom = ST_SetSRID(ST_MakePoint($this->latlng), 4326) WHERE id = $this->id";
+        $find_str = array(", ","[","]");
+        $repl_str = array(" ","","");
+        $geomlatlngs = str_replace($find_str, $repl_str, $this->latlngs);
+                
+        $query = "UPDATE litters SET geom = ST_SetSRID(ST_GeomFromText('LINESTRING($geomlatlngs)'), 4326) WHERE id = $this->id";
         
         $affected = DB::update($query);
         
         return $affected;
     }
-    
-    // confirm the presence of garbage at a marker
+
+    // confirm the presence of garbage at a litter
     public function confirm()
     {
          
-        $query = "UPDATE ONLY trashes SET confirms = confirms + 1  WHERE id = $this->id";
+        $query = "UPDATE ONLY litters SET confirms = confirms + 1  WHERE id = $this->id";
         
         $affected = DB::update($query);
         
         return $affected;
     }
-    
+  
     public function clean()
     {
         // toggle the current value in the db
@@ -100,7 +85,7 @@ class Trash extends Model
         
         return $affected;
     }
-
+    
     public function addTypes($types)
     {
         $types = explode(",", $types);
@@ -109,5 +94,5 @@ class Trash extends Model
         }
         return true;
     }
-
+    
 }

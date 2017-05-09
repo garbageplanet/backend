@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Log;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use JWTAuth;
@@ -15,10 +16,10 @@ class AuthenticateController extends AuthController
 {
     public function __construct()
     {
-       // Apply the jwt.auth middleware to all methods in this controller
-       // except for the authenticate method. We don't want to prevent
-       // the user from retrieving their token if they don't already have it
-        $this->middleware('jwt.auth', ['except' => ['authenticate', 'postRegister', 'loginUser']]);
+        // Apply the jwt.auth middleware to all methods in this controller
+        // except for the authenticate method. We don't want to prevent
+        // the user from retrieving their token if they don't already have it
+        $this->middleware('jwt.auth', ['except' => ['getLogout', 'authenticate', 'postRegister', 'loginUser' /*, 'deleteUser'*/]]);
     }
     /**
      * Display a listing of the resource.
@@ -38,6 +39,8 @@ class AuthenticateController extends AuthController
      */
     public function authenticate(Request $request)
     {
+        Log::debug('authenticate start');
+
         $credentials = $request->only('email', 'password');
         $res = $this->loginUser($credentials);
 
@@ -48,7 +51,7 @@ class AuthenticateController extends AuthController
         if ($res == 500) {
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
-
+        Log::debug('authenticate return: ' . $res);
         return response()->json(['token' => $res], 200);
     }
 
@@ -57,10 +60,15 @@ class AuthenticateController extends AuthController
      * @param Request $request
      * @return $user
      */
-    public function getAuthenticatedUser()
+    public function getAuthenticatedUser($token = null)
     {
-        try {
+        Log::debug('getAuthenticatedUser start');
 
+        if ($token != null) {
+            JWTAuth::setToken($token);
+        }
+
+        try {
             if (! $user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
@@ -91,13 +99,13 @@ class AuthenticateController extends AuthController
     public function postRegister(Request $request)
     {
         $validator = AuthController::validator($request->all());
-    
+
         if ($validator->fails()) {
             return response()->json(['Email is already registered / Something wrong with input.'], 403);
         }
         //create user
         $user = AuthController::create($request->all());
-        
+
         //credentials for login
         $credentials = $request->only('email', 'password');
 
@@ -111,17 +119,59 @@ class AuthenticateController extends AuthController
      */
     protected function loginUser($credentials)
     {
+        Log::debug('loginUser start with credentials: ' . implode('|', $credentials));
 
         try {
             // verify the credentials and create a token for the user
-            if (! $token = JWTAuth::attempt($credentials)) {
+            $token = JWTAuth::attempt($credentials);
+            if (! $token) {
                 return 401;
             }
         } catch (JWTException $e) {
- 
+
             return 500;
         }
+        Log::debug('loginUser return token: ' . $token);
+
         // if no errors are encountered we can return a JWT
         return $token;
+    }
+    
+    protected function deleteUser($credentials)
+    {
+        Log::debug('loginUser start with credentials: ' . implode('|', $credentials));
+
+        try {
+            // verify the credentials and create a token for the user
+            $token = JWTAuth::attempt($credentials);
+            if (! $token) {
+                return 401;
+            }
+        } catch (JWTException $e) {
+            return 500;
+        }
+        Log::debug('loginUser return token: ' . $token);
+
+        // if no errors are encountered we can remove account
+        // TODO do not cascade in db!
+        //find user by id
+        $user = User::findOrFail($id);
+        //delete
+        $user->delete();
+
+        return response()->json("{}", 200);
+
+    }
+    
+    public function getLogout($token = null) 
+    {
+                 
+        if ($token != null) {
+        
+            JWTAuth::setToken($token)->invalidate();
+                
+            return response()->json("{}", 200);        
+        }
+
     }
 }

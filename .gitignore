@@ -2,4 +2,8 @@
 /node_modules
 Homestead.yaml
 Homestead.json
+.bash_history
 .env
+*.bak
+
+

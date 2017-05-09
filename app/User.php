@@ -45,31 +45,37 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->hasMany('App\Trash', 'marked_by');
     }
+                                        
+    public function markedLitters()
+    {
+        return $this->hasMany('App\Litter', 'marked_by');
+    }
 
-    public function cleans()
+    public function cleanedTrashes()
     {
         return $this->hasMany('App\Clean', 'user_id');
     }
 
-    public function createdMeetings()
+    public function createdCleanings()
     {
-        return $this->hasMany('App\Clean', 'created_by');
+        return $this->hasMany('App\Cleaning', 'created_by');
+    }
+                                        
+    public function createdAreas()
+    {
+        return $this->hasMany('App\Area', 'created_by');
     }
 
-    public function modifiedMeetings()
+/*    public function modifiedCleanings()
     {
-        return $this->hasMany('App\Clean', 'modified_by');
+        return $this->hasMany('App\Cleaning', 'modified_by');
     }
+                                      
+    public function joinedCleaning()
+    {
+        return $this->hasMany('App\Cleaning', 'user_id');
+    }*/
 
-    public function participations()
-    {
-        return $this->hasMany('App\Clean', 'user_id');
-    }
-
-    public function monitoringTiles()
-    {
-        return $this->hasMany('App\MonitoringTile');
-    }
 
     /********************
      * Relationships ends

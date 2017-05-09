@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMeetingTagPivotTable extends Migration
+class CreateCleaningTagPivotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,9 @@ class CreateMeetingTagPivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('meeting_tag', function(Blueprint $table) {
-            $table->integer('meeting_id')->unsigned()->index();
-            $table->foreign('meeting_id')->references('id')->on('meetings')->onDelete('cascade');
+        Schema::create('cleaning_tag', function(Blueprint $table) {
+            $table->integer('cleaning_id')->unsigned()->index();
+            $table->foreign('cleaning_id')->references('id')->on('cleanings')->onDelete('cascade');
             $table->integer('tag_id')->unsigned()->index();
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
         });
@@ -27,6 +27,6 @@ class CreateMeetingTagPivotTable extends Migration
      */
     public function down()
     {
-        Schema::drop('meeting_tag');
+        Schema::drop('cleaning_tag');
     }
 }

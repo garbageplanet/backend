@@ -13,10 +13,11 @@ use DB;
 use Carbon\Carbon;
 use Auth;
 
-class Clean extends Model
+class Confirm extends Model
 {
     /**
-    NB: A 'Clean' is the event of cleaning garbage, not an actual cleaning event where people gather to clean garbage. A cleaning/gathering event is referred to as a 'Cleaning'.
+    NB: A 'Confirm' is the event of confirming there is garbage at a location.
+    * TODO make this as a count function on each confirm
      */
     protected $fillable = [
         'trash_id',
@@ -47,7 +48,7 @@ class Clean extends Model
     
     public function litter()
     {
-        return $this->belongsTo('App\Litter', 'litter_id');
+        return $this->belongsTo('App\Trash', 'litter_id');
     }
 
     /********************
