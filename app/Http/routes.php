@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::group(['prefix' => 'api'], function() {
     //Auth (login, authenticate, register, logout)
     Route::post('authenticate', 'AuthenticateController@authenticate');
@@ -42,7 +38,7 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('litters', 'LittersController@index');
     Route::get('litters/withinbounds', 'LittersController@withinBounds');
     Route::get('litters/{id}', 'LittersController@show');
-    
+
     Route::post('litters', 'LittersController@store');
     Route::put('litters/{id}', 'LittersController@update');
     Route::put('litters/clean/{id}', 'LittersController@clean');
@@ -54,11 +50,11 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('areas/withinbounds', 'AreasController@withinBounds');
     Route::get('areas/list/{id}', 'AreasController@indexWithinBounds');
     Route::get('areas/{id}', 'AreasController@show');
-    
+
     Route::post('areas', 'AreasController@store');
     Route::put('areas/{id}', 'AreasController@update');
     Route::delete('areas/{id}', 'AreasController@destroy');
-    
+
     // Cleanings aka meetings
     Route::get('cleanings', 'CleaningsController@index');
     Route::get('cleanings/withinbounds', 'CleaningsController@withinBounds');
