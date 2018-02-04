@@ -18,7 +18,7 @@ class CreateTrashesTable extends Migration
             $table->string('latlng')->nullable();
             $table->integer('amount')->nullable();
             $table->string('image_url')->nullable();
-            $table->mediumText('note')->nullable();
+            $table->text('note')->nullable();
             $table->string('todo')->nullable();
             $table->string('sizes')->nullable();
             $table->string('embed')->nullable();

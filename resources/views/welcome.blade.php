@@ -33,18 +33,18 @@
             .title {
                 font-size: 90px;
             }
-            
+
             .light {
                 color: #B0BEC5;
             }
-            
+
         </style>
     </head>
     <body>
         <div class="container">
             <div class="content">
-                <div class="title light">Garbagepla.net</div>
-                <div class="title">Laravel 5</div>
+                <div class="title light">Welcome to Garbagepla.net</div>
+                <div class="title">Made with Laravel.</div>
             </div>
         </div>
     </body>

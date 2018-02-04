@@ -1,26 +1,35 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "garbageplanet/backend",
+    "description": "Garbagepla.net backend",
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*",
-        "tymon/jwt-auth": "0.5.*",
-        "barryvdh/laravel-cors": "0.8.2",
+        "laravel/framework": "5.5.*",
+        "tymon/jwt-auth": "dev-develop",
+        "barryvdh/laravel-cors": "0.9.*",
         "curl/curl": "^1.2",
         "doctrine/dbal": "2.5.*",
-        "jublonet/codebird-php": "^3.1"
+        "jublonet/codebird-php": "^3.1",
+        "laravel-notification-channels/twitter": "^1.0",
+        "laravel/scout": "^3.0",
+        "fideloper/proxy": "~3.3",
+        "laravel/tinker": "~1.0",
+        "tcg/voyager": "^1.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^2.4",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~4.0",
+        "phpunit/phpunit": "~6.0",
         "phpspec/phpspec": "~2.1",
         "laracasts/generators": "^1.1",
-        "symfony/dom-crawler": "~3.0",
-        "symfony/css-selector": "~3.0"
+        "symfony/dom-crawler": "3.1.*",
+        "symfony/css-selector": "3.1.*"
     },
     "autoload": {
         "classmap": [
@@ -55,5 +64,11 @@
     },
     "config": {
         "preferred-install": "dist"
+    },
+    "repositories": {
+        "hooks": {
+            "type": "composer",
+            "url": "https://larapack.io"
+        }
     }
 }

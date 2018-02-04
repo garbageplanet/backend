@@ -43,7 +43,11 @@ return [
         'log' => [
             'driver' => 'log',
         ],
-
+  
+        'socketio' => [
+            'driver' => 'socket.io',
+            'connection' => 'default',
+        ],
     ],
 
 ];

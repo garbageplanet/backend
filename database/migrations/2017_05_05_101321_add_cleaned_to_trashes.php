@@ -15,8 +15,8 @@ class AddCleanedToTrashes extends Migration
         Schema::table('trashes', function (Blueprint $table) {
             $table->boolean('cleaned')->default(false);
         });
-      
-        DB::statement('UPDATE `trashes` SET `cleaned` = `f`;');
+
+        DB::update('UPDATE trashes SET cleaned = ?', ['f']);
     }
 
     /**

@@ -40,6 +40,7 @@ return [
             'table' => 'jobs',
             'queue' => 'default',
             'expire' => 60,
+            // 'retry_after' => 60,
         ],
 
         'beanstalkd' => [
@@ -47,6 +48,7 @@ return [
             'host'   => 'localhost',
             'queue'  => 'default',
             'ttr'    => 60,
+            // 'retry_after' => 60,
         ],
 
         'sqs' => [
@@ -71,6 +73,7 @@ return [
             'connection' => 'default',
             'queue'  => 'default',
             'expire' => 60,
+            // 'retry_after' => 60,
         ],
 
     ],
