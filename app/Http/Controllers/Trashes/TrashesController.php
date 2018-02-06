@@ -66,11 +66,11 @@ class TrashesController extends Controller
             $trash_ids[] = $trash->id;
         }
 
-        Log::debug(print_r($trash_ids, true));
+        // Log::debug(print_r($trash_ids, true));
 
         $trashes = Trash::whereIn('id', $trash_ids)->get();
 
-        Log::debug(print_r($trashes, true));
+        // Log::debug(print_r($trashes, true));
 
         $trashesArray= [];
 
@@ -82,7 +82,7 @@ class TrashesController extends Controller
 
         $trashes = collect($trashesArray);
 
-        Log::debug(print_r($trashesArray, true));
+        // Log::debug(print_r($trashesArray, true));
 
         return $trashes;
     }
@@ -98,7 +98,7 @@ class TrashesController extends Controller
     {
         $data = $request->all();
 
-        Log::debug(print_r($data, true));
+        // Log::debug(print_r($data, true));
 
         if (!Auth::check()) {
             $glome = Glome::createGlomeAccount();

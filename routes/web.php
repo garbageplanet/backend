@@ -12,6 +12,6 @@
 |
 */
 
-Route::group(['prefix' => '' . env('APP_ADMIN_PATH', 'admin') ], function () {
-    Voyager::routes();
-});
+// Route::group(['prefix' => '' . env('APP_ADMIN_PATH', 'admin') ], function () {
+//     Voyager::routes();
+// });
