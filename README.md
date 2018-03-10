@@ -10,3 +10,5 @@ This code is available under the MIT licence, see [the license file](https://git
 
 - [x] upgrade to L5.5
 - [ ] use Algolia for searching
+- [ ] fix tags system
+- [ ] add map links logic
