@@ -4,7 +4,7 @@
   "description": "A backend for garbagepla.net based on KoaJS",
   "main": "index.js",
   "scripts": {
-    "start": "echo \"Launching docker images for redis:\" &&  docker start gbpn-dev-redis && echo \"Launching docker images for postgres:\" && docker start gbpnstd && pm2 start ./src/app/index.js --name \"backend-koa\" --watch",
+    "start": "docker start gp-postgres-dev && pm2 start ./src/app/index.js --name \"koa\" --watch",
     "prod": "echo \"Not implemented yet\" && exit 1"
   },
   "repository": {
@@ -26,6 +26,7 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^6.2.0",
     "joi": "^14.3.1",
+    "jsonwebtoken": "^8.4.0",
     "knex": "^0.16.3",
     "knex-postgis": "^0.7.0",
     "koa": "^2.6.2",
@@ -38,6 +39,7 @@
     "koa-router": "^7.4.0",
     "koa-session": "^5.10.1",
     "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pg": "^7.7.1"
   },

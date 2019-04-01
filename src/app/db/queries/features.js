@@ -6,9 +6,9 @@ function getAllFeatures(type) {
 
 function makeGeometry(id, type, latlngs, userid) {
   let query = type === 'garbages' || 'cleanings' ? 
-    `UPDATE ${type} SET geom = ST_SetSRID(ST_MakePoint(${latlngs}), 4326) WHERE id = ${id} AND marked_by = ${userid};` : type === 'litters' ? 
-    `UPDATE ${type} SET geom = ST_SetSRID(ST_GeomFromText('LINESTRING(${latlngs})'), 4326) WHERE id = ${id} AND marked_by = ${userid};` :
-    `UPDATE ${type} SET geom = ST_SetSRID(ST_MakePolygon(ST_GeomFromText('LINESTRING(${latlngs})')), 4326) WHERE id = ${id} AND marked_by = ${userid};`;
+    `UPDATE ${type} SET geom = ST_SetSRID(ST_MakePoint(${latlngs}), 4326) WHERE id = ${id} AND created_by = ${userid};` : type === 'litters' ? 
+    `UPDATE ${type} SET geom = ST_SetSRID(ST_GeomFromText('LINESTRING(${latlngs})'), 4326) WHERE id = ${id} AND created_by = ${userid};` :
+    `UPDATE ${type} SET geom = ST_SetSRID(ST_MakePolygon(ST_GeomFromText('LINESTRING(${latlngs})')), 4326) WHERE id = ${id} AND created_by = ${userid};`;
   return knex.db.raw( query, {latlngs, id, type});
 }
 

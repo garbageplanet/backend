@@ -1,22 +1,24 @@
-                require('dotenv').config()
-const Router  = require('koa-router');
-const queries = require('../db/queries/features');
+                 require('dotenv').config()
+const helpers   = require('./helpers');
+const queries  = require('../db/queries/features');
+const Router   = require('koa-router');
 const validate = require('../validation');
 
-const router = new Router();
-const BASE_URL = process.env.API_BASE_URL;
+const router = new Router({
+  prefix: '/api/v1/features'
+});
 
 const ERROR_NOT_EXIST = {
-  status: 'error',
-  message: 'The map feature does not exist.'
+  status  : 'error',
+  message : 'The map feature does not exist.'
 };
 
 /**
  * Pluralize the map feature type for easier reference
  * inside the database calls (e.g. garbage --> garbages)
  */
-router.use(async function pluralizeFeatureType(context, next) {
-  context.query.type ? context.query.type = context.query.type + 's' : null;
+router.use(async function pluralizeFeatureType(ctx, next) {
+  ctx.query.type = ctx.query.type ? ctx.query.type + 's' : null;
   await next();
 });
 
@@ -27,22 +29,10 @@ router.use(async function pluralizeFeatureType(context, next) {
  * @apiParam {String="garbage", "litter", "area","cleaning"} type Feature type name.
  * @apiHeader {String} access-key User unique access-key
  * @apiSuccess {Array} result A collection of feature data as JSON.
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
- *     [{
- *       "type": "garbage",
- *       "lat": 30.0000,
- *       "lng" : 25.0000
- *     }]
  * @apiError FeatureTypeNotFound There is no feature of that type.
  * @apiError FeatureNotFound There is no data for that feature type.
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 404 Not Found
- *     {
- *       "error": "FeatureNotFound"
- *     }
  */
-router.get(`${BASE_URL}`, async (ctx) => {
+router.get('/', helpers.ensureAuthenticated, helpers.ensureAuthorized, async (ctx) => {
   try {
     const features = await queries.getAll(ctx.query.type);
     ctx.body = {
@@ -50,7 +40,6 @@ router.get(`${BASE_URL}`, async (ctx) => {
       data: features
     };
   } catch (err) {
-    console.log(err)
     ctx.status = 404
   }
 })
@@ -65,23 +54,20 @@ router.get(`${BASE_URL}`, async (ctx) => {
  * @apiParam {Number{-90-90}} maxlat Bunding box geographical coordinate.
  * @apiHeader {String} access-key Users unique access-key
  * @apiSuccess {Array} result A collection of map feature of a given type data as JSON.
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
  * @apiError FeatureTypeNotFound There is no feature of that type.
  * @apiError FeatureNotFound There is no data for that feature type.
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 404 Not Found
- *     {
- *       "error": "FeatureNotFound"
- *     }
  */
-router.get(`${BASE_URL}/in`, async (ctx) => {
+router.get('/in', async (ctx) => {
 
   try {
-    const features = await queries.withinBounds(ctx.query.type, ctx.query.minlon, ctx.query.minlat, ctx.query.maxlon, ctx.query.maxlat);
+    const features = await queries.withinBounds(
+        ctx.query.type
+      , ctx.query.minlon
+      , ctx.query.minlat
+      , ctx.query.maxlon
+      , ctx.query.maxlat
+    );
     
-    console.info('Features in db', features);
-
     if ( features.length > 0 ) {
 
       features.forEach(function (feature) {
@@ -108,7 +94,7 @@ router.get(`${BASE_URL}/in`, async (ctx) => {
   }
 })
 
-router.get(`${BASE_URL}/:id`, async (ctx) => {
+router.get('/:id', async (ctx) => {
   try {
     const feature = await queries.getOne(ctx.params.id, ctx.query.type);
     if (feature.length) {
@@ -129,7 +115,7 @@ router.get(`${BASE_URL}/:id`, async (ctx) => {
  * Features action endpoint
  * methods: [confirm, clean, attend, ...]
  */
-router.get(`${BASE_URL}/:id/:method`, async (ctx) => {
+router.get('/:id/:method', helpers.ensureAuthorized, async (ctx) => {
   try {
     const feature = await queries[ctx.params.method](ctx.params.id, ctx.query.type, ctx.user.id);
     if (feature.length) {
@@ -149,17 +135,23 @@ router.get(`${BASE_URL}/:id/:method`, async (ctx) => {
 /**
  * Feature creation endpoint
  */
-router.post(`${BASE_URL}`/*, validate.feature*/, async (ctx) => {
-  try {
-    const feature = await queries.add(ctx.request.body, ctx.query.type, ctx.user.id);
-    const geom = await queries.addGeom(feature.id, ctx.query.type, ctx.request.body.latlngs, ctx.user.id)
+router.post('/', validate.feature, helpers.ensureAuthenticated, helpers.ensureAuthorized, async (ctx) => {
 
-    if (movie.length && geom.length) {
+  try {
+    const feature = await queries.add(ctx.request.body, ctx.query.type, ctx.state.user.id);
+    const latlngs = (ctx.query.type == ('garbages' || 'cleanings')) ? `${feature[0].lat},${feature[0].lng}` : feature[0].latlngs
+    const geom = await queries.addGeom(feature[0].id, ctx.query.type, latlngs, ctx.state.user.id)
+
+    if ( feature && geom.rowCount > 0 ) {
+
+      delete feature.geom
+
       ctx.status = 201;
       ctx.body = {
         status: 'success',
         data: feature
       };
+      
     } else {
       ctx.status = 400;
       ctx.body = {
@@ -176,11 +168,11 @@ router.post(`${BASE_URL}`/*, validate.feature*/, async (ctx) => {
   }
 })
 
-router.put(`${BASE_URL}/:id`/*, validate.feature*/, async (ctx) => {
+router.put('/:id'/*, validate.feature*/, helpers.ensureAuthenticated, helpers.ensureAuthorized, async (ctx) => {
   try {
-    const feature = await queries.update(ctx.params.id, ctx.request.body, ctx.query.type, ctx.user.id);
-    const geom = await queries.addGeom(ctx.params.id, ctx.request.body.latlngs, ctx.query.type, ctx.user.id);
-    if (feature.length && geom.length) {
+    const feature = await queries.update(ctx.params.id, ctx.request.body, ctx.query.type, ctx.state.user.id);
+    const geom = await queries.addGeom(ctx.params.id, ctx.request.body.latlngs, ctx.query.type, ctx.state.user.id);
+    if (feature && geom.rowCount > 0) {
       ctx.status = 200;
       ctx.body = {
         status: 'success',
@@ -199,9 +191,9 @@ router.put(`${BASE_URL}/:id`/*, validate.feature*/, async (ctx) => {
   }
 })
 
-router.delete(`${BASE_URL}/:id`, async (ctx) => {
+router.delete('/:id', helpers.ensureAuthenticated, helpers.ensureAuthorized, async (ctx) => {
   try {
-    const id = await queries.delete(ctx.params.id, ctx.query.type, ctx.user.id);
+    const id = await queries.delete(ctx.params.id, ctx.query.type, ctx.state.user.id);
     if (id) {
       ctx.status = 200;
       ctx.body = {
@@ -216,7 +208,7 @@ router.delete(`${BASE_URL}/:id`, async (ctx) => {
     ctx.status = 400;
     ctx.body = {
       status: 'error',
-      message: err.message || 'Sorry, an error has occurred.'
+      message: err.message || 'Internal server.'
     };
   }
 })

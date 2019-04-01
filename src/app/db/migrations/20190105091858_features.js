@@ -6,7 +6,7 @@ exports.up = function (knex, Promise) {
             table.integer('created_by').references('users.id').nullable();
             table.integer('cleaned_by').references('users.id').nullable();
             table.integer('updated_by').references('users.id').nullable();
-            table.decimal('lat', 9, 6).notNullable();
+            table.decimal('lat', 9, 6).notNullable(); // should be specificType('double precision', ...)
             table.decimal('lng', 9, 6).notNullable();
             table.specificType('geom', 'geometry(point, 4326)');
             table.string('imageurl').nullable();

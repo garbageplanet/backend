@@ -1,46 +1,52 @@
+                 require('dotenv').config();
 const Router   = require('koa-router');
 const passport = require('koa-passport');
-const fs       = require('fs');
 const queries  = require('../db/queries/users');
 const helpers  = require('./helpers');
+const jwt      = require('jsonwebtoken');
 const router   = new Router();
 
-router.get('/auth/register', async (ctx) => {
-  ctx.type = 'html';
-  ctx.body = fs.createReadStream('./src/app/views/register.html');
-});
-
 router.post('/auth/register', async (ctx) => {
-  const user = await queries.addUser(ctx.request.body);
-  return passport.authenticate('local', (err, user, info, status) => {
-    if (user) {
-      ctx.login(user);
-      ctx.redirect('/auth/status');
-    } else {
-      ctx.status = 400;
-      ctx.body = { status: 'error' };
-    }
-  })(ctx);
-});
 
-router.get('/auth/login', async (ctx) => {
-  if (!helpers.ensureAuthenticated(ctx)) {
-    ctx.type = 'html';
-    ctx.body = fs.createReadStream('./src/app/views/login.html');
+  const create_user = await queries.addUser(ctx.request.body);
+
+  if (create_user) {
+    return passport.authenticate('local', (err, user, info, status) => {
+
+      if ( user && !err ) {
+        ctx.login(user);
+
+        const jwt_body = { _id: user.id, username: user.username };
+        const token = jwt.sign({ user: jwt_body }, process.env.JWT_KEY);
+
+        ctx.body = { 
+          status : 'success',
+          data   : token 
+        };
+
+      } else {
+        ctx.throw(400);
+      }
+    })(ctx)
   } else {
-    ctx.redirect('/auth/status');
+    ctx.throw(500);
   }
 });
 
 router.post('/auth/login', async (ctx) => {
   return passport.authenticate('local', (err, user, info, status) => {
-    if (user) {
+    if ( user && !err ) {
+
       ctx.login(user);
-      ctx.body = {
+
+      const jwt_body = { id: user.id, username: user.username };
+      const token    = jwt.sign({ user: jwt_body }, process.env.JWT_KEY);
+
+      ctx.body = { 
         status : 'success',
-        data : user
+        data : token
       };
-      //ctx.redirect('/auth/status');
+
     } else {
       ctx.status = 400;
       ctx.body = { status: 'error' };
@@ -48,23 +54,13 @@ router.post('/auth/login', async (ctx) => {
   })(ctx);
 });
 
-router.get('/auth/logout', async (ctx) => {
-  if (helpers.ensureAuthenticated(ctx)) {
+router.get('/auth/logout', helpers.ensureAuthenticated ,async (ctx) => {
     ctx.logout();
-    ctx.redirect('/auth/login');
-  } else {
-    ctx.body = { success: false };
-    ctx.throw(401);
-  }
+    ctx.status = 200;
 });
 
-router.get('/auth/status', async (ctx) => {
-  if (helpers.ensureAuthenticated(ctx)) {
-    ctx.type = 'html';
-    ctx.body = fs.createReadStream('./src/app/views/status.html');
-  } else {
-    ctx.redirect('/auth/login');
-  }
+router.get('/auth/status', helpers.ensureAuthenticated, helpers.ensureAuthorized, async (ctx) => {
+    ctx.status = 200;
 });
 
 module.exports = router;
